@@ -1,0 +1,26 @@
+{% extends "main/base.html" %} 
+
+{% block content %} 
+    <header>
+        <h1> CREATE YOUR PRODUCT </h1>
+    </header>
+
+    <form method='POST'>
+        {% csrf_token %}                                  
+        <input name="product_name" id="product_name_input" placeholder="product_name">
+        <input name="product_description" id="product_description_input" placeholder="product_description">
+        <input name="product_category" id="product_category_input" placeholder="product_category">
+        <input name="product_n_lot" id="product_n_lot_input" placeholder="product_n_lot">
+        <input name="product_price_pdt_HT" id="product_price_pdt_HT_input" placeholder="product_price_pdt_HT">
+        <input name="product_price_pdt_TTC" id="product_price_pdt_TTC_input" placeholder="product_price_pdt_TTC">
+        <input name="product_commercial_margin" id="product_commercial_margin_input" placeholder="product_commercial_margin">
+        <input name="product_stock_q" id="product_stock_q_input" placeholder="product_commercial_margin">
+        <input name="product_stock_security" id="product_stock_security_input" placeholder="product_stock_security">
+        <input name="product_stock_status" id="product_stock_status_input" placeholder="product_stock_status">
+        <input type="submit" name="">
+
+    </form>
+    <br>
+    <br>
+    
+{% endblock content %}

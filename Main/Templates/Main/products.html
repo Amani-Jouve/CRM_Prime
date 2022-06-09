@@ -1,0 +1,47 @@
+{% extends "main/base.html" %} 
+
+{% block content %} 
+    <header>
+        <h1> Welcome to products </h1>
+    </header>
+
+
+<table>
+    <thead>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Categorie</th>
+        <th>N_Lot</th>
+        <th>Prix unitaire HT</th>
+        <th>Prix unitaire TTC</th>
+        <th>Marge commerciale</th>
+        <th>Quantité en stock initiale</th>
+        <th>Quantité en stock actuelle</th>
+        <th>Stock de sécurité</th>
+        <th>Etat des stocks</th>
+        
+    </thead>
+    <tbody>
+        {% for my_product_item in my_product %}
+        <tr>    
+            <td>{{my_product_item.name}}</td>
+            <td>{{my_product_item.description}}</td>
+            <td>{{my_product_item.category}}</td>
+            <td>{{my_product_item.n_lot}}</td>
+            <td>{{my_product_item.price_pdt_HT}}</td>
+            <td>{{my_product_item.price_pdt_TTC}}</td>
+            <td>{{my_product_item.commercial_margin}}</td>
+            <td>{{my_product_item.stock_q}}</td>
+            <td>{{my_product_item.stock_q_actuel}}</td>
+            <td>{{my_product_item.stock_security}}</td>
+            <td>{{my_product_item.stock_status}}</td>
+        </tr>
+            
+        {% endfor %}
+        
+    </tbody>
+
+   
+    
+    
+{% endblock content %}
