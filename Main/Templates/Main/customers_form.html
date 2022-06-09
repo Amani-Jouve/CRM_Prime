@@ -6,20 +6,13 @@
     </header>
 
     <form method='POST'>
-        {% csrf_token %}                                  
-        <input name="customer_name" id="customer_name_input" placeholder="customer_name">
-        <input name="customer_type" id="customer_type_input" placeholder="customer_type">
-        <input name="customer_DoB" id="customer_DoB_input" placeholder="customer_DoB">
-        <input name="customer_gender" id="customer_gender_input" placeholder="customer_gender">
-        <input name="customer_email" id="customer_email_input" placeholder="customer_email">
-        <input name="customer_phone" id="customer_phone_input" placeholder="customer_phone">
-        <input name="customer_address" id="customer_address_input" placeholder="customer_adress">
-        <input name="customer_town" id="customer_town_input" placeholder="customer_town">
-        <input name="customer_region" id="customer_region_input" placeholder="customer_region">
-        <input type="submit" name="">
+        {% csrf_token %} 
+        {{form}}
+        <input type="submit" name="envoyer">
+        
 
     </form>
-    <br>
-    <br>
+
+    
     
 {% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "main/base.html" %} 
+
+{% block content %} 
+    <header>
+        <h1> Welcome to update customer </h1>
+    </header>
+    <form method="POST">
+        {% csrf_token %}
+
+        {{form}}
+
+        <input type="submit" name="Update Customer">
+    </form>
+    
+{% endblock content %}

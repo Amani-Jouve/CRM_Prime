@@ -17,7 +17,7 @@
 
 
 from django.urls import path
-from .views import home, customers,products,orders,create_customers,create_products,create_orders
+from .views import home, customers,products,orders,create_customers,create_products,create_orders,update_customer,delete_customer,update_product,delete_product
 
 urlpatterns = [
     path('', home, name='home'),
@@ -28,6 +28,12 @@ urlpatterns = [
     path('Clients_création/', create_customers, name='customers_create'),
     path('Produits_création/', create_products, name='products_create'),
     path('Commandes_création/', create_orders, name='orders_create'),
+    
+    path('Clients_mise_à_jour/<str:pk>',update_customer,name='update_customer'),
+    path('Clients_supprimer/<str:pk>',delete_customer,name='delete_customer'),
+    
+    path('Produits_mise_à_jour/<str:pk>',update_product,name='update_product'),
+    path('Produits_supprimer/<str:pk>',delete_product,name='delete_product'),
     
     # Il manque les updates des trois items 
     

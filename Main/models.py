@@ -9,15 +9,14 @@ class Customer(models.Model):
     GENDER_CHOICES=(('Masculin','Masculin'),('Féminin','Féminin'),('Autre','Autre')
     )
     
-    name=models.CharField(max_length=255, null=True)
-    customer_type=models.CharField(max_length=255, null=True)
-    DoB=models.DateTimeField(null=True)
+    name=models.CharField(max_length=255,blank=True, null=True)
+    customer_type=models.CharField(max_length=255,blank=True, null=True)
     gender=models.CharField(max_length=255, null=True,choices=GENDER_CHOICES)
-    email=models.CharField(max_length=255, null=True) 
-    phone=models.CharField(max_length=12, null=True)
-    address=models.CharField(max_length=255, null=True)
-    town=models.CharField(max_length=255, null=True)
-    region=models.CharField(max_length=255, null=True)
+    email=models.CharField(max_length=255,blank=True, null=True) 
+    phone=models.CharField(max_length=12,blank=True, null=True)
+    address=models.CharField(max_length=255,blank=True, null=True)
+    town=models.CharField(max_length=255,blank=True, null=True)
+    region=models.CharField(max_length=255,blank=True, null=True)
     date_created=models.DateTimeField(auto_now_add=True, null=True)
     
     def __str__(self):
@@ -84,6 +83,8 @@ class Order(models.Model):
     
     STATUS_CHOICES=(('en préparation','en préparation'),('expédié','expédié'),('livré','livré'),('retour client','retour client'))
     
+    
+#     name=models.CharField(max_length=200, null=True)
     customer=models.ForeignKey(Customer,null=True, on_delete=models.SET_NULL)
     product=models.ForeignKey(Product,null=True, on_delete=models.SET_NULL)
     
@@ -93,7 +94,10 @@ class Order(models.Model):
     
     status=models.CharField(max_length=255, null=True,choices=STATUS_CHOICES)
     Delivery_date_expected=models.DateTimeField(null=True)
-    Delivery_date_final=models.DateTimeField(blank=True, null=True)                   
+    Delivery_date_final=models.DateTimeField(blank=True, null=True)       
+    
+#     def __str__(self):
+#         return self.product.name
 
     @property
     def get_total_item_price_HT(self):#for particular product order total
