@@ -8,6 +8,7 @@
 
 <table>
     <thead>
+        <th>ID Produit</th>
         <th>Nom</th>
         <th>Description</th>
         <th>Categorie</th>
@@ -23,7 +24,8 @@
     </thead>
     <tbody>
         {% for my_product_item in my_product %}
-        <tr>    
+        <tr>   
+            <td>{{my_product_item.pk}}</td>
             <td>{{my_product_item.name}}</td>
             <td>{{my_product_item.description}}</td>
             <td>{{my_product_item.category}}</td>

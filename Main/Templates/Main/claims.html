@@ -1,0 +1,51 @@
+{% extends "main/base.html" %} 
+
+{% block content %} 
+    <header>
+        <h1> Welcome to our claims </h1>
+    </header>
+
+<table>
+    <thead>
+        <th>ID Claim</th>
+        <th>Client</th>
+        <th>Commande concernée</th>
+        <th>Date de création</th>
+        <th>Description</th>
+        <th>Responsable de traitement</th>
+        <th>Type</th>
+        <th>Statut</th>
+        <th>Action en cours</th>
+        <th>Délai de résolution prévu</th>
+        <th>Dernier contact client</th>
+        <th>Avancement</th>
+        <th>Date de clôture</th>
+        
+    </thead>
+    <tbody>
+        {% for my_claim_item in my_claim %}
+        <tr>    
+            <td>{{my_claim_item.pk}}</td>
+            <td>{{my_claim_item.customer}}</td>
+            <td>{{my_claim_item.order}}</td>
+            <td>{{my_claim_item.date_created}}</td>
+            <td>{{my_claim_item.description}}</td>
+            <td>{{my_claim_item.Operator}}</td>
+            <td>{{my_claim_item.Type}}</td>
+            <td>{{my_claim_item.status}}</td>
+            <td>{{my_claim_item.action}}</td>
+            <td>{{my_claim_item.resolution_date_expected}}</td>
+            <td>{{my_claim_item.last_contact_customer_date}}</td>
+            <td>{{my_claim_item.resolution_progress_status}}</td>
+            <td>{{my_claim_item.resolution_date_final}}</td>
+        </tr>
+            
+        {% endfor %}
+        
+    </tbody>
+
+   
+</table>  
+
+    
+{% endblock content %}

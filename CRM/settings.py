@@ -126,4 +126,3 @@ STATIC_DIRS = BASE_DIR / 'static'               # AM : update avec le chemin ver
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-print(BASE_DIR)

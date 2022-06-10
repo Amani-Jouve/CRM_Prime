@@ -4,13 +4,16 @@ from django.utils import timezone
 
 
 class Customer(models.Model):
-    """docstring fos Customer"""
+    """docstring for Customer"""
     
     GENDER_CHOICES=(('Masculin','Masculin'),('Féminin','Féminin'),('Autre','Autre')
     )
     
+#     REGION_CHOICES=
+    
     name=models.CharField(max_length=255,blank=True, null=True)
     customer_type=models.CharField(max_length=255,blank=True, null=True)
+    dob=models.DateTimeField(null=True)
     gender=models.CharField(max_length=255, null=True,choices=GENDER_CHOICES)
     email=models.CharField(max_length=255,blank=True, null=True) 
     phone=models.CharField(max_length=12,blank=True, null=True)
@@ -39,28 +42,38 @@ class Customer(models.Model):
     def segment(self):
         if self.total_orders>1000:
             segmentation="Bon client"
+        elif self.total_orders==0:
+            segmentation="Nouvelle inscription"
         else:
             segmentation="Client ponctuel"
         return segmentation
+    
+    @property
+    def nb_claims(self):
+        my_claims=Claim.objects.filter(customer__id=self.id)
+        return my_claims.count()
 
 class Product(models.Model):
-    """docstring fos Product"""
+    """docstring for Product"""
     
-    CATEGORY_CHOICES=(('PC','PC'),('Autre','Autre'))
+    CATEGORY_CHOICES=(('Informatique','Informatique'),('Téléphonie','Téléphonie'),('Objets connectés','Objets connectés'),('TV & Home cinéma','TV & Home cinéma'))
     
     name=models.CharField(max_length=200, null=True)
     description=models.CharField(max_length=200, null=True)
     category=models.CharField(max_length=200, null=True,choices=CATEGORY_CHOICES)
     n_lot=models.CharField(max_length=200, null=True)
     price_pdt_HT=models.FloatField(null=True)
-    price_pdt_TTC=models.FloatField(null=True)
     commercial_margin=models.FloatField(null=True)
     stock_q=models.IntegerField(null=True)
     stock_security=models.IntegerField(null=True)
     
-    
     def __str__(self):
         return self.name    
+    
+    @property
+    def price_pdt_TTC(self):
+        TAUX_TVA=1.2
+        return self.price_pdt_HT*TAUX_TVA
     
     @property
     def stock_q_actuel(self):
@@ -77,14 +90,11 @@ class Product(models.Model):
         return stock_res
     
     
-    
 class Order(models.Model):  
-    """docstring fos Order"""
+    """docstring for Order"""
     
     STATUS_CHOICES=(('en préparation','en préparation'),('expédié','expédié'),('livré','livré'),('retour client','retour client'))
     
-    
-#     name=models.CharField(max_length=200, null=True)
     customer=models.ForeignKey(Customer,null=True, on_delete=models.SET_NULL)
     product=models.ForeignKey(Product,null=True, on_delete=models.SET_NULL)
     
@@ -92,20 +102,20 @@ class Order(models.Model):
     discount=models.FloatField(blank=True,null=True)
     date_created=models.DateTimeField(auto_now_add=True, null=True)
     
-    status=models.CharField(max_length=255, null=True,choices=STATUS_CHOICES)
+    status=models.CharField(max_length=255, null=True,default='en préparation',choices=STATUS_CHOICES)
     Delivery_date_expected=models.DateTimeField(null=True)
     Delivery_date_final=models.DateTimeField(blank=True, null=True)       
     
-#     def __str__(self):
-#         return self.product.name
-
-    @property
-    def get_total_item_price_HT(self):#for particular product order total
-        return self.quantity * self.product.price_pdt_HT*(1-self.discount)
+    def __str__(self):
+        return str(self.id)
     
     @property
-    def get_total_item_price_TTC(self):#for particular product order total
-        return self.quantity * self.product.price_pdt_TTC*(1-self.discount)
+    def get_total_item_price_HT(self):
+        return round(self.quantity * self.product.price_pdt_HT*((100-self.discount)/100),2)
+    
+    @property
+    def get_total_item_price_TTC(self):
+        return round(self.quantity * self.product.price_pdt_TTC*((100-self.discount)/100),2)
     
     @property
     def late_delivery(self):
@@ -130,7 +140,34 @@ class Order(models.Model):
     
     
     
+class Claim(models.Model):  
+    """docstring for Claim"""
     
+    TYPE_CHOICES=(('erreur prix','erreur prix'),('article erronné','article erronné'),('article defectueux','article defectueux'),('retard livraison','retard livraison'))
+    STATUS_CHOICES=(('ouverte','ouverte'),('résolue','résolue'))
+    
+    customer=models.ForeignKey(Customer,null=True, on_delete=models.SET_NULL)
+    order=models.ForeignKey(Order,null=True, on_delete=models.SET_NULL)
+    
+    date_created=models.DateTimeField(auto_now_add=True, null=True)
+    description=models.CharField(max_length=255, null=True)
+    Operator=models.CharField(max_length=255, null=True) # A choisir dans users
+    Type=models.CharField(max_length=255, null=True,choices=TYPE_CHOICES)
+    action=models.CharField(max_length=255, null=True)
+    status=models.CharField(max_length=255, null=True,default='ouverte',choices=STATUS_CHOICES)
+    
+    resolution_date_expected=models.DateTimeField(null=True)
+    last_contact_customer_date=models.DateTimeField(blank=True, null=True)
+    resolution_date_final=models.DateTimeField(blank=True, null=True)
+    
+    
+    def resolution_progress_status(self):
+        today=timezone.now()
+        if self.resolution_date_expected < today:
+            resolution_res="En retard"
+        else:
+            resolution_res="Dans les temps"
+        return resolution_res
     
     
     
