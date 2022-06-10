@@ -1,0 +1,45 @@
+{% extends "main/base.html" %} 
+
+{% block content %} 
+    <header>
+        <h1> Welcome to our marketing_campaigns </h1>
+    </header>
+
+<a class="btn-primary btn-sm" href="{% url 'marketing_campaigns_create' %}" role="button">créer une campagne marketing</a>
+
+<table>
+    <thead>
+        <th>ID Campagne Marketing</th>
+        <th>Segment client concerné</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Date de début</th>
+        <th>Date de fin</th>
+        <th>Statut</th>
+
+      
+    </thead>
+    <tbody>
+        {% for my_marketing_item in my_marketing %}
+        <tr>    
+            <td>{{my_marketing_item.id}}</td>
+            <td>{{my_marketing_item.customer_segment}}</td>
+            <td>{{my_marketing_item.marketing_type}}</td>
+            <td>{{my_marketing_item.description}}</td>
+            <td>{{my_marketing_item.start_date}}</td>
+            <td>{{my_marketing_item.end_date}}</td>
+            <td>{{my_marketing_item.marketing_status}}</td>
+            <td><a class="btn-success btn-sm" href="{% url 'update_marketing' my_marketing_item.id %}" role="button">update</a></td>
+            <td><a class="btn-danger btn-sm" href="{% url 'delete_marketing' my_marketing_item.id %}" role="button">delete</a></td>
+            
+        </tr>
+            
+        {% endfor %}
+        
+    </tbody>
+
+   
+</table>  
+
+    
+{% endblock content %}

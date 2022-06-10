@@ -5,6 +5,8 @@
         <h1> Welcome to our claims </h1>
     </header>
 
+<a class="btn-primary btn-sm" href="{% url 'claims_create' %}" role="button">créer une réclamation</a>
+
 <table>
     <thead>
         <th>ID Claim</th>
@@ -38,6 +40,9 @@
             <td>{{my_claim_item.last_contact_customer_date}}</td>
             <td>{{my_claim_item.resolution_progress_status}}</td>
             <td>{{my_claim_item.resolution_date_final}}</td>
+            <td><a class="btn-success btn-sm" href="{% url 'update_claim' my_claim_item.id %}" role="button">update</a></td>
+            <td><a class="btn-danger btn-sm" href="{% url 'delete_claim' my_claim_item.id %}" role="button">delete</a></td>
+          
         </tr>
             
         {% endfor %}

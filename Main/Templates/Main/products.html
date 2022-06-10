@@ -5,6 +5,7 @@
         <h1> Welcome to products </h1>
     </header>
 
+<a class="btn-primary btn-sm" href="{% url 'products_create' %}" role="button">créer un produit</a>
 
 <table>
     <thead>
@@ -37,6 +38,8 @@
             <td>{{my_product_item.stock_q_actuel}}</td>
             <td>{{my_product_item.stock_security}}</td>
             <td>{{my_product_item.stock_status}}</td>
+            <td><a class="btn-success btn-sm" href="{% url 'update_product' my_product_item.id %}" role="button">update</a></td>
+            <td><a class="btn-danger btn-sm" href="{% url 'delete_product' my_product_item.id %}" role="button">delete</a></td>
         </tr>
             
         {% endfor %}

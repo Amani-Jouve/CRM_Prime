@@ -5,6 +5,11 @@
         <h1> Welcome to our customers </h1>
     </header>
 
+<a class="btn-primary btn-sm" href="{% url 'customers_create' %}" role="button">créer un client</a>
+
+
+
+
 <table>
     <thead>
         <th>ID Client</th>
@@ -21,8 +26,8 @@
         <th>Total commandé en €</th>
         <th>Segment</th>
         <th>Nombre de réclamations</th>
-        
-        
+        <th>Campagne Marketing - en cours</th>
+      
     </thead>
     <tbody>
         {% for my_customer_item in my_customer %}
@@ -41,6 +46,9 @@
             <td>{{my_customer_item.total_orders}}</td>
             <td>{{my_customer_item.segment}}</td>
             <td>{{my_customer_item.nb_claims}}</td>
+            <td>{{my_customer_item.current_marketing_type}}</td>
+            <td><a class="btn-success btn-sm" href="{% url 'update_customer' my_customer_item.id %}" role="button">update</a></td>
+            <td><a class="btn-danger btn-sm" href="{% url 'delete_customer' my_customer_item.id %}" role="button">delete</a></td>
         </tr>
             
         {% endfor %}

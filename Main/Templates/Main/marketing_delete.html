@@ -2,10 +2,10 @@
 
 {% block content %} 
 
-<p>Are you sure you want to delete {{item}} ?</p>
+<p>Are you sure you want to delete {{item}}?</p>
 
 
-<a href={% url 'claims_page' %}>Cancel</a>
+<a href={% url 'marketing_page' %} >Cancel</a>
 
 <form method="POST" action="">
     {% csrf_token %}

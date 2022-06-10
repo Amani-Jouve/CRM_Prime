@@ -5,6 +5,8 @@
         <h1> Welcome to orders </h1>
     </header>
 
+<a class="btn-primary btn-sm" href="{% url 'orders_create' %}" role="button">créer une commande</a>
+
 <table>
     <thead>
         <th>Réf Commande</th>
@@ -36,6 +38,8 @@
             <td>{{order.delivery_fees}}</td>
             <td>{{order.get_total_order_price_TTC}}</td>
             <td>{{order.late_delivery}}</td>
+            <td><a class="btn-success btn-sm" href="{% url 'update_order' order.id %}" role="button">update</a></td>
+            <td><a class="btn-danger btn-sm" href="{% url 'delete_order' order.id %}" role="button">delete</a></td>
         </tr>
             
         {% endfor %}

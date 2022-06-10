@@ -21,6 +21,7 @@ class Customer(models.Model):
     town=models.CharField(max_length=255,blank=True, null=True)
     region=models.CharField(max_length=255,blank=True, null=True)
     date_created=models.DateTimeField(auto_now_add=True, null=True)
+#     marketing_campaign=models.ForeignKey(Marketing,null=True, on_delete=models.SET_NULL)
     
     def __str__(self):
         return self.name
@@ -52,6 +53,14 @@ class Customer(models.Model):
     def nb_claims(self):
         my_claims=Claim.objects.filter(customer__id=self.id)
         return my_claims.count()
+    
+    @property
+    def current_marketing_type(self):
+        my_marketing=Marketing.objects.get(customer_segment=self.segment)
+        if my_marketing.marketing_status=="Campagne en cours":
+            return my_marketing.marketing_type
+        else:
+            return "NA"
 
 class Product(models.Model):
     """docstring for Product"""
@@ -107,7 +116,7 @@ class Order(models.Model):
     Delivery_date_final=models.DateTimeField(blank=True, null=True)       
     
     def __str__(self):
-        return str(self.id)
+        return "Commande "+ str(self.id)
     
     @property
     def get_total_item_price_HT(self):
@@ -160,6 +169,8 @@ class Claim(models.Model):
     last_contact_customer_date=models.DateTimeField(blank=True, null=True)
     resolution_date_final=models.DateTimeField(blank=True, null=True)
     
+    def __str__(self):
+        return "Réclamation " + str(self.id)
     
     def resolution_progress_status(self):
         today=timezone.now()
@@ -169,6 +180,40 @@ class Claim(models.Model):
             resolution_res="Dans les temps"
         return resolution_res
     
+class Marketing (models.Model):
+    """docstring for Marketing"""
+    
+    CUSTOMER_SEGMENT_CHOICES=(("Bon client","Bon client"),("Nouvelle inscription","Nouvelle inscription"),("Client ponctuel","Client ponctuel"))
+    
+    customer_segment=models.CharField(max_length=255, null=True,choices=CUSTOMER_SEGMENT_CHOICES)
+    description=models.CharField(max_length=255, null=True)
+    start_date=models.DateTimeField(null=True)
+    end_date=models.DateTimeField(null=True)
+    
+    def __str__(self):
+        return "Campagne Marketing "+ str(self.id)
+
+   
+    @property
+    def marketing_type(self):
+        if self.customer_segment=="Bon client":
+            mark_type="Listing_promotions_ciblées"
+        elif self.customer_segment=="Nouvelle inscription":
+            mark_type="Envoi Newsletters"
+        else:
+            mark_type="Invitation_webinaire"
+        return mark_type
+            
+    
+
+    @property
+    def marketing_status(self):
+        today=timezone.now()
+        if self.end_date < today:
+            status_res="Campagne Terminée"
+        else:
+            status_res="Campagne en cours"
+        return status_res
     
     
     

@@ -1,11 +1,21 @@
 from django.shortcuts import render,redirect
-from .models import Customer,Product,Order,Claim
-from .forms import CustomerForm,ProductForm,OrderForm,ClaimForm
+from .models import Customer,Product,Order,Claim, Marketing
+from .forms import CustomerForm,ProductForm,OrderForm,ClaimForm,MarketingForm
 
 # Pages / vues principales 
 
 def home(request):
-    return render(request,'Main/home.html')
+    context = {"customer_list" : top_customers()}
+    return render(request,'Main/home.html', context)
+
+def top_customers():
+    my_list = Customer.objects.all()
+    return my_list
+
+def late_deliveries(request):
+    pass
+def critical_inventory():
+    pass
 
 def customers(request):
     my_customer=Customer.objects.all()
@@ -26,6 +36,11 @@ def claims(request):
     my_claim=Claim.objects.all()
     context={"my_claim": my_claim}
     return render(request,'Main/claims.html',context)
+
+def marketing_campaigns(request):
+    my_marketing=Marketing.objects.all()
+    context={"my_marketing": my_marketing}
+    return render(request,'Main/marketing_campaigns.html',context)
 
 # Pages / vues - Création
 
@@ -77,6 +92,18 @@ def create_claims(request):
     else:
         return render(request,'Main/claims_form.html',context)
 
+def create_marketing(request):
+    marketing_form=MarketingForm()
+    context={'form':marketing_form}
+    if request.method == "POST":
+        marketing_form=MarketingForm(request.POST)
+        if marketing_form.is_valid():
+            marketing_form.save()
+            
+        return redirect('/Campagnes_Marketing/')
+    else:
+        return render(request,'Main/marketing_form.html',context)
+    
 # Pages / vues - Update
 
 def update_customer(request,pk):
@@ -130,6 +157,19 @@ def update_claim(request,pk):
     context={'claim':my_claim,'form':my_form}
     return render(request, 'Main/claim_update.html',context)
 
+def update_marketing(request,pk):
+    my_marketing=Marketing.objects.get(id=pk)
+    if request.method == 'POST':
+        my_form=MarketingForm(request.POST,instance=my_marketing)
+        if my_form.is_valid():
+            my_form.save()
+            return redirect('/Campagnes_Marketing/')
+    
+    my_form= MarketingForm(instance=my_marketing)
+    context={'marketing':my_marketing,'form':my_form}
+    return render(request, 'Main/marketing_update.html',context)
+
+
 # Pages / vues - Delete
 
 def delete_customer(request,pk):
@@ -163,3 +203,11 @@ def delete_claim(request,pk):
         return redirect('/Réclamations/')
     context = {'item':item}
     return render(request, 'Main/claim_delete.html', context)
+
+def delete_marketing(request,pk):
+    item=Marketing.objects.get(id=pk)
+    if request.method == 'POST':
+        item.delete()
+        return redirect('/Campagnes_Marketing/')
+    context = {'item':item}
+    return render(request, 'Main/marketing_delete.html', context)

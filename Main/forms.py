@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Customer,Product,Order,Claim
+from .models import Customer,Product,Order,Claim,Marketing
 class CustomerForm(ModelForm):
     """docstring for CustomerForm"""
     class Meta():
@@ -23,4 +23,10 @@ class ClaimForm(ModelForm):
     """docstring for ClaimForm"""
     class Meta():
         model = Claim
+        fields='__all__'
+        
+class MarketingForm(ModelForm):
+    """docstring for MarketingForm"""
+    class Meta():
+        model = Marketing
         fields='__all__'
