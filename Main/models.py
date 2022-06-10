@@ -126,13 +126,19 @@ class Order(models.Model):
     def get_total_item_price_TTC(self):
         return round(self.quantity * self.product.price_pdt_TTC*((100-self.discount)/100),2)
     
-    @property
+    @property                      # Axe de réfacto
     def late_delivery(self):
         today=timezone.now()
-        if self.Delivery_date_expected < today:
-            delivery_res="En retard"
+        if self.Delivery_date_final:
+            if self.Delivery_date_expected < self.Delivery_date_final:
+                delivery_res="En retard"
+            else:
+                delivery_res="Dans les temps"
         else:
-            delivery_res="Dans les temps"
+            if self.Delivery_date_expected < today:
+                delivery_res="En retard"
+            else:
+                delivery_res="Dans les temps"
         return delivery_res
     
     @property

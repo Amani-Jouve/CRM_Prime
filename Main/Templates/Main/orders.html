@@ -10,6 +10,7 @@
 <table>
     <thead>
         <th>Réf Commande</th>
+        <th>Date Commande</th>
         <th>Nom Client</th>
         <th>Produit</th>
         <th>Prix Unitaire TTC</th>
@@ -27,6 +28,7 @@
         {% for order in my_order %}
         <tr>    
             <td>{{order.id}}</td>
+            <td>{{order.date_created}}</td>
             <td>{{order.customer.name}}</td>
             <td>{{order.product.name}}</td>
             <td>{{order.product.price_pdt_TTC}}</td>
