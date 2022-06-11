@@ -13,33 +13,42 @@
         <th>Date Commande</th>
         <th>Nom Client</th>
         <th>Produit</th>
-        <th>Prix Unitaire TTC</th>
         <th>Quantité</th>
+        <th>Prix Unitaire TTC</th>
+        <th>Frais livraison</th>
+        <th>Remise sur Commande</th>
+        <th>Prix total TTC</th>
+        <th>Marge Commerciale</th>
+        
         <th>Statut</th>
+        <th>Etat livraison</th>
         <th>Date de livraison - prévue</th>
         <th>Date de livraison - effective</th>
-        <th>Prix avant livraison TTC</th>
-        <th>Frais livraison</th>
-        <th>Prix total TTC</th>
-        <th>Etat livraison</th>
+        
+        <th>Note de satisfaction</th>
         
     </thead>
     <tbody>
         {% for order in my_order %}
         <tr>    
             <td>{{order.id}}</td>
-            <td>{{order.date_created}}</td>
+            <td>{{order.date}}</td>
             <td>{{order.customer.name}}</td>
             <td>{{order.product.name}}</td>
-            <td>{{order.product.price_pdt_TTC}}</td>
             <td>{{order.quantity}}</td>
+            <td>{{order.product.price_pdt_TTC}}</td>
+            <td>{{order.delivery_fees}}</td>
+            <td>{{order.discount}}</td>
+            <td>{{order.get_total_order_price_TTC}}</td>
+            <td>{{order.commercial_margin_total}}</td>
+            
             <td>{{order.status}}</td>
+            <td>{{order.late_delivery}}</td>
             <td>{{order.Delivery_date_expected}}</td>
             <td>{{order.Delivery_date_final}}</td>
-            <td>{{order.get_total_item_price_TTC}}</td>
-            <td>{{order.delivery_fees}}</td>
-            <td>{{order.get_total_order_price_TTC}}</td>
-            <td>{{order.late_delivery}}</td>
+
+            <td>{{order.satisfaction_score}}</td>
+            
             <td><a class="btn-success btn-sm" href="{% url 'update_order' order.id %}" role="button">update</a></td>
             <td><a class="btn-danger btn-sm" href="{% url 'delete_order' order.id %}" role="button">delete</a></td>
         </tr>

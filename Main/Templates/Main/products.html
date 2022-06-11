@@ -21,6 +21,7 @@
         <th>Quantité en stock actuelle</th>
         <th>Stock de sécurité</th>
         <th>Etat des stocks</th>
+        <th>revenues_per_product</th>
         
     </thead>
     <tbody>
@@ -38,6 +39,7 @@
             <td>{{my_product_item.stock_q_actuel}}</td>
             <td>{{my_product_item.stock_security}}</td>
             <td>{{my_product_item.stock_status}}</td>
+            <td>{{my_product_item.revenues_per_product}}</td>
             <td><a class="btn-success btn-sm" href="{% url 'update_product' my_product_item.id %}" role="button">update</a></td>
             <td><a class="btn-danger btn-sm" href="{% url 'delete_product' my_product_item.id %}" role="button">delete</a></td>
         </tr>
@@ -46,7 +48,7 @@
         
     </tbody>
 
-   
+<table>
     
     
 {% endblock content %}

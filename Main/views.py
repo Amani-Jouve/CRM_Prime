@@ -1,48 +1,114 @@
 from django.shortcuts import render,redirect
 from .models import Customer,Product,Order,Claim, Marketing
 from .forms import CustomerForm,ProductForm,OrderForm,ClaimForm,MarketingForm
+from datetime import datetime
 
-# Pages / vues principales 
+########## Pages / vues principales ##########
 
 def home(request):
-    context = {"customer_list" : top_customers()}
+    
+    my_top_cus=[]
+    my_cus = Customer.objects.all()
+    
+    # Clients CA sup à 200 K€ #
+    for item in my_cus:
+        if item.total_orders>150000:
+            my_top_cus.append(item)
+    
+    my_top_pdt=[]
+    my_critical_pdt=[]
+    my_pdt= Product.objects.all()
+    
+    # Produits CA sup à 100 K€ #
+    for machin in my_pdt:
+        if machin.revenues_per_product>100000:
+            my_top_pdt.append(machin)
+        if machin.stock_status=="A réapprovisionner":
+            my_critical_pdt.append(machin)
+            
+    my_ongoing_deliveries=[]
+    my_orders=Order.objects.all()
+    
+    # Commandes en cours de livraison #
+    for obj in my_orders:
+        if obj.status!="livré":
+            my_ongoing_deliveries.append(obj)
+    
+    my_delayed_claims=[]
+    my_claims=Claim.objects.all()
+    
+    # Réclamations en cours #
+    for pb in my_claims:
+        if pb.status=="ouverte":
+            my_delayed_claims.append(pb)
+            
+    my_ongoing_marketing=[]
+    my_marketing=Marketing.objects.all()
+    
+    # Campagnes marketing en cours #
+    for campaign in my_marketing:
+        if campaign.marketing_status=="Campagne en cours":
+            my_ongoing_marketing.append(campaign)
+            
+    # Nbre commandes 2022 & 2021 #
+    # CA 2022 & 2021 #
+    # Marge commerciale 2022 & 2021 #
+    # Satisfaction client globale 2022 & 2021 #
+    number_orders_2022,number_orders_2021=0,0
+    revenues_2022,revenues_2021=0,0
+    com_margin_2022,com_margin_2021=0,0
+    satisfaction_client_globale_2022,satisfaction_client_globale_2021=0,0
+    
+    for order in my_orders:
+        if order.date.strftime("%Y")=="2022":
+            number_orders_2022=number_orders_2022+1
+            revenues_2022=revenues_2022+order.get_total_item_price_TTC
+            com_margin_2022=com_margin_2022+order.commercial_margin_total
+#             satisfaction_client_globale_2022=satisfaction_client_globale_2022+order.satisfaction_score
+        if my_cus.count():
+            satisfaction_client_globale_2022=satisfaction_client_globale_2022/my_cus.count()
+        else:
+            satisfaction_client_globale_2022=0
+        if order.date.strftime("%Y")=="2021":
+            number_orders_2021=number_orders_2021+1
+            revenues_2021=revenues_2021+order.get_total_item_price_TTC
+            com_margin_2021=com_margin_2021+order.commercial_margin_total
+#             satisfaction_client_globale_2021=satisfaction_client_globale_2021+order.satisfaction_score
+        if my_cus.count():
+            satisfaction_client_globale_2021=satisfaction_client_globale_2021/my_cus.count()
+        else:
+            satisfaction_client_globale_2021=0
+    
+    context = {"customer_top_list" : my_top_cus,"product_top_list" : my_top_pdt,"product_critical_list" : my_critical_pdt,"product_ongoing_deliveries":my_ongoing_deliveries,"alerte_claims":my_delayed_claims,"marketing_en_cours":my_ongoing_marketing,"number_orders_2021":number_orders_2021,"number_orders_2022":number_orders_2022,"revenues_2022":revenues_2022,"revenues_2021":revenues_2021,"com_margin_2022":com_margin_2022,"com_margin_2021":com_margin_2021}
+  
     return render(request,'Main/home.html', context)
 
-def top_customers():
-    my_list = Customer.objects.all()
-    return my_list
-
-def late_deliveries(request):
-    pass
-def critical_inventory():
-    pass
-
 def customers(request):
-    my_customer=Customer.objects.all()
+    my_customer=Customer.objects.order_by('name')
     context={"my_customer": my_customer}
     return render(request,'Main/customers.html',context)
 
 def products(request):
-    my_product=Product.objects.all()
+    my_product=Product.objects.order_by('name')
     context={"my_product": my_product}
     return render(request,'Main/products.html',context)
 
 def orders(request):
-    my_order=Order.objects.all()
+    my_order=Order.objects.order_by('date_created')
     context={"my_order": my_order}
     return render(request,'Main/orders.html',context)
 
 def claims(request):
-    my_claim=Claim.objects.all()
+    my_claim=Claim.objects.order_by('date_created')
     context={"my_claim": my_claim}
     return render(request,'Main/claims.html',context)
 
 def marketing_campaigns(request):
-    my_marketing=Marketing.objects.all()
+    my_marketing=Marketing.objects.order_by('start_date')
     context={"my_marketing": my_marketing}
     return render(request,'Main/marketing_campaigns.html',context)
 
-# Pages / vues - Création
+########## Pages / vues - Création ##########
 
 def create_customers(request):
     customer_form=CustomerForm()
@@ -104,7 +170,7 @@ def create_marketing(request):
     else:
         return render(request,'Main/marketing_form.html',context)
     
-# Pages / vues - Update
+########## Pages / vues - Update ##########
 
 def update_customer(request,pk):
     my_customer=Customer.objects.get(id=pk)
@@ -170,7 +236,7 @@ def update_marketing(request,pk):
     return render(request, 'Main/marketing_update.html',context)
 
 
-# Pages / vues - Delete
+########## Pages / vues - Delete ##########
 
 def delete_customer(request,pk):
     item=Customer.objects.get(id=pk)

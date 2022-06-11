@@ -9,7 +9,7 @@ class Customer(models.Model):
     GENDER_CHOICES=(('Masculin','Masculin'),('Féminin','Féminin'),('Autre','Autre')
     )
     
-#     REGION_CHOICES=
+    REGION_CHOICES=(("Auvergne-Rhône-Alpes","Auvergne-Rhône-Alpes"),("Bourgogne-Franche-Comté","Bourgogne-Franche-Comté"),("Bretagne","Bretagne"),("Centre-Val de Loire","Centre-Val de Loire"),("Corse","Corse"),("Grand Est","Grand Est"),("Hauts-de-France","Hauts-de-France"),("IDF","IDF"),("Normandie","Normandie"),("Nouvelle-Aquitaine","Nouvelle-Aquitaine"),("Occitanie","Occitanie"),("Pays de la Loire","Pays de la Loire"),("Provence-Alpes-Côte d’Azur","Provence-Alpes-Côte d’Azur"))
     
     name=models.CharField(max_length=255,blank=True, null=True)
     customer_type=models.CharField(max_length=255,blank=True, null=True)
@@ -19,7 +19,7 @@ class Customer(models.Model):
     phone=models.CharField(max_length=12,blank=True, null=True)
     address=models.CharField(max_length=255,blank=True, null=True)
     town=models.CharField(max_length=255,blank=True, null=True)
-    region=models.CharField(max_length=255,blank=True, null=True)
+    region=models.CharField(max_length=255,blank=True, null=True,choices=REGION_CHOICES)
     date_created=models.DateTimeField(auto_now_add=True, null=True)
 #     marketing_campaign=models.ForeignKey(Marketing,null=True, on_delete=models.SET_NULL)
     
@@ -37,7 +37,7 @@ class Customer(models.Model):
         total=0
         for item in my_orders:
             total=total+item.get_total_order_price_TTC
-        return total
+        return round(total,2)
     
     @property
     def segment(self):
@@ -48,6 +48,17 @@ class Customer(models.Model):
         else:
             segmentation="Client ponctuel"
         return segmentation
+    
+    @property
+    def customer_satisfaction(self):
+        my_orders=Order.objects.filter(status="livré",customer__id=self.id)
+        total=0
+        if my_orders.count():
+            for item in my_orders:
+                total=total+item.satisfaction_score
+            return round(total/my_orders.count(),2)
+        else:
+            return "NA"
     
     @property
     def nb_claims(self):
@@ -61,6 +72,7 @@ class Customer(models.Model):
             return my_marketing.marketing_type
         else:
             return "NA"
+
 
 class Product(models.Model):
     """docstring for Product"""
@@ -87,7 +99,10 @@ class Product(models.Model):
     @property
     def stock_q_actuel(self):
         my_orders=Order.objects.filter(product__id=self.id)
-        return self.stock_q-my_orders.count()
+        quantity_out=self.stock_q
+        for order in my_orders:
+            quantity_out=quantity_out-order.quantity
+        return quantity_out
         
         
     @property
@@ -98,33 +113,51 @@ class Product(models.Model):
             stock_res="Okay"
         return stock_res
     
+    @property
+    def revenues_per_product(self):
+        my_orders=Order.objects.filter(product=self)
+        revenues=0
+        for order in my_orders:
+            revenues=revenues+order.get_total_order_price_HT
+        return round(revenues,0)
+            
+    
     
 class Order(models.Model):  
     """docstring for Order"""
     
-    STATUS_CHOICES=(('en préparation','en préparation'),('expédié','expédié'),('livré','livré'),('retour client','retour client'))
+    STATUS_CHOICES=(('en préparation','en préparation'),('expédié','expédié'),('livré','livré'))
     
     customer=models.ForeignKey(Customer,null=True, on_delete=models.SET_NULL)
     product=models.ForeignKey(Product,null=True, on_delete=models.SET_NULL)
     
+    date=models.DateTimeField(blank=True, null=True) 
     quantity=models.FloatField(null=True)
-    discount=models.FloatField(blank=True,null=True)
+    discount=models.FloatField(null=True)
     date_created=models.DateTimeField(auto_now_add=True, null=True)
     
-    status=models.CharField(max_length=255, null=True,default='en préparation',choices=STATUS_CHOICES)
+    status=models.CharField(max_length=255, null=True,default='livré',choices=STATUS_CHOICES)
     Delivery_date_expected=models.DateTimeField(null=True)
-    Delivery_date_final=models.DateTimeField(blank=True, null=True)       
+    Delivery_date_final=models.DateTimeField(blank=True, null=True)
+    
+    satisfaction_score=models.FloatField(null=True)
     
     def __str__(self):
         return "Commande "+ str(self.id)
     
     @property
     def get_total_item_price_HT(self):
-        return round(self.quantity * self.product.price_pdt_HT*((100-self.discount)/100),2)
+        if self.discount=="":
+            return round(self.quantity * self.product.price_pdt_HT,2)
+        else:
+            return round(self.quantity * self.product.price_pdt_HT*((100-self.discount)/100),2)
     
     @property
     def get_total_item_price_TTC(self):
-        return round(self.quantity * self.product.price_pdt_TTC*((100-self.discount)/100),2)
+        if self.discount=="":
+            return round(self.quantity * self.product.price_pdt_TTC,2)
+        else:
+            return round(self.quantity * self.product.price_pdt_TTC*((100-self.discount)/100),2)
     
     @property                      # Axe de réfacto
     def late_delivery(self):
@@ -143,15 +176,24 @@ class Order(models.Model):
     
     @property
     def delivery_fees(self):
-        if self.get_total_item_price_HT<2000:
-            fees_res=10
+        if self.get_total_item_price_HT<10000:
+            fees_res=100
         else:
             fees_res=0
         return fees_res
     
     @property
+    def get_total_order_price_HT(self):#for particular product order total
+        TAUX_TVA=1.2
+        return self.get_total_item_price_HT+self.delivery_fees/TAUX_TVA
+    
+    @property
     def get_total_order_price_TTC(self):#for particular product order total
         return self.get_total_item_price_TTC+self.delivery_fees
+    
+    @property
+    def commercial_margin_total(self):
+        return round(self.quantity * self.product.price_pdt_HT*(self.product.commercial_margin-(self.discount/100)),2)
     
     
     
@@ -194,7 +236,7 @@ class Marketing (models.Model):
     customer_segment=models.CharField(max_length=255, null=True,choices=CUSTOMER_SEGMENT_CHOICES)
     description=models.CharField(max_length=255, null=True)
     start_date=models.DateTimeField(null=True)
-    end_date=models.DateTimeField(null=True)
+    end_date=models.DateTimeField(blank=True,null=True)
     
     def __str__(self):
         return "Campagne Marketing "+ str(self.id)

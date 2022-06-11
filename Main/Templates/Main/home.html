@@ -4,5 +4,296 @@
     <header>
         <h1> Welcome to our website </h1>
     </header>
+
+    
+    <h2> Highlighs </h2>
+
+    <table>
+    
+    <thead>
+        <th>Nombre de commande 2022 - à date</th>
+        <th>Nombre de commande 2021</th>
+    </thead>
+    
+    <tbody>
+        <tr>    
+            <td>{{number_orders_2022}}</td>
+            <td>{{number_orders_2021}}</td>
+              
+        </tr>
+
+    </tbody>
+   
+    </table>  
+
+    <hr>
+    <hr>
+
+    <table>
+    
+    <thead>
+        <th>Chiffre d'affaires 2022 - à date</th>
+        <th>Chiffre d'affaires 2021</th>
+    </thead>
+    
+    <tbody>
+        <tr>    
+            <td>{{revenues_2022}}</td>
+            <td>{{revenues_2021}}</td>
+              
+        </tr>
+
+    </tbody>
+   
+    </table>  
+
+    <hr>
+    <hr>
+
+    <table>
+    
+    <thead>
+        <th>Marge commerciale 2022 - à date</th>
+        <th>Marge commerciale 2021</th>
+    </thead>
+    
+    <tbody>
+        <tr>    
+            <td>{{com_margin_2022}}</td>
+            <td>{{com_margin_2021}}</td>
+              
+        </tr>
+
+    </tbody>
+   
+    </table>  
+
+    <hr>
+    <hr>
+
+<!--     <table>
+    
+    <thead>
+        <th>Satisfaction client 2022 - à date</th>
+        <th>Satisfaction client 2022 2021</th>
+    </thead>
+    
+    <tbody>
+        <tr>    
+            <td>{{satisfaction_client_globale_2021}}</td>
+            <td>{{satisfaction_client_globale_2021}}</td>
+              
+        </tr>
+
+    </tbody>
+   
+    </table>   -->
+
+    <hr>
+    <hr>
+    
+
+    <h2> Top Clients : CA sup 150 K€ </h2>
+
+    <table>
+    <thead>
+        <th>Nom</th>
+        <th>Particulier ou société</th>
+        
+        <th>Nombre total de commandes</th>
+        <th>Total commandé en €</th>
+        
+        <th>Satisfaction</th>
+    </thead>
+    <tbody>
+        {% for my_customer_item in customer_top_list %}
+        <tr>    
+            <td>{{my_customer_item.name}}</td>
+            <td>{{my_customer_item.customer_type}}</td>
+            
+            <td>{{my_customer_item.nb_orders}}</td>
+            <td>{{my_customer_item.total_orders}}</td>
+            
+            <td>{{my_customer_item.customer_satisfaction}}</td>
+
+            
+        </tr>
+            
+        {% endfor %}
+        
+    </tbody>
+   
+    </table>  
+
+    <hr>
+    <hr>
+    
+    <h2> Top Produits : CA sup 100 K€ </h2>
+
+    <table>
+        <thead>
+            <th>Nom</th>
+            <th>Categorie</th>
+            <th>Prix unitaire HT</th>
+            <th>Marge commerciale</th>
+            <th>revenues_per_product</th>
+
+        </thead>
+        <tbody>
+            {% for my_product_item in product_top_list %}
+            <tr>   
+                <td>{{my_product_item.name}}</td>
+                <td>{{my_product_item.category}}</td>
+                <td>{{my_product_item.price_pdt_HT}}</td>
+                <td>{{my_product_item.commercial_margin}}</td>
+                <td>{{my_product_item.revenues_per_product}}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table> 
+
+    <hr>
+    <hr>
+
+    <h2> Livraisons en cours </h2>
+    
+    <table>
+        <thead>
+            <th>Réf Commande</th>
+            <th>Date Commande</th>
+            <th>Nom Client</th>
+            <th>Produit</th>
+            <th>Statut</th>
+            <th>Etat livraison</th>
+            <th>Date de livraison - prévue</th>
+            <th>Date de livraison - effective</th>
+
+        </thead>
+        <tbody>
+            {% for order in product_ongoing_deliveries %}
+            <tr>    
+                <td>{{order.id}}</td>
+                <td>{{order.date}}</td>
+                <td>{{order.customer.name}}</td>
+                <td>{{order.product.name}}</td>
+                <td>{{order.status}}</td>
+                <td>{{order.late_delivery}}</td>
+                <td>{{order.Delivery_date_expected}}</td>
+                <td>{{order.Delivery_date_final}}</td>
+            {% endfor %}
+                
+        </tbody>
+
+    </table>
+
+    <hr>
+    <hr>
+
+    <h2> Alerte - Produits à réapprovisionner </h2>
+
+    <table>
+        <thead>
+            <th>Nom</th>
+            <th>Categorie</th>
+            <th>Quantité en stock actuelle</th>
+            <th>Stock de sécurité</th>
+            <th>Etat des stocks</th>
+
+        </thead>
+        <tbody>
+            {% for my_product_item in product_critical_list %}
+            <tr>   
+                <td>{{my_product_item.name}}</td>
+                <td>{{my_product_item.category}}</td>
+                <td>{{my_product_item.stock_q_actuel}}</td>
+                <td>{{my_product_item.stock_security}}</td>
+                <td>{{my_product_item.stock_status}}</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+        
+    </table>
+
+    <hr>
+    <hr>
+
+    <h2> Alerte - Réclamations en cours </h2>
+    <table>
+        <thead>
+            <th>ID Claim</th>
+            <th>Client</th>
+            <th>Date de création</th>
+            <th>Responsable de traitement</th>
+            <th>Type</th>
+            <th>Statut</th>
+            <th>Action en cours</th>
+            <th>Délai de résolution prévu</th>
+            <th>Dernier contact client</th>
+            <th>Avancement</th>
+
+        </thead>
+        <tbody>
+            {% for my_claim_item in alerte_claims %}
+            <tr>    
+                <td>{{my_claim_item.pk}}</td>
+                <td>{{my_claim_item.customer}}</td>
+                <td>{{my_claim_item.date_created}}</td>
+                <td>{{my_claim_item.Operator}}</td>
+                <td>{{my_claim_item.Type}}</td>
+                <td>{{my_claim_item.status}}</td>
+                <td>{{my_claim_item.action}}</td>
+                <td>{{my_claim_item.resolution_date_expected}}</td>
+                <td>{{my_claim_item.last_contact_customer_date}}</td>
+                <td>{{my_claim_item.resolution_progress_status}}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+
+    </table>  
+
+    <h2> Suivi - Campagnes marketing en cours </h2>
+    <table>
+        <thead>
+            <th>ID Campagne Marketing</th>
+            <th>Segment client concerné</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Statut</th>
+
+
+        </thead>
+        <tbody>
+            {% for my_marketing_item in marketing_en_cours %}
+            <tr>    
+                <td>{{my_marketing_item.id}}</td>
+                <td>{{my_marketing_item.customer_segment}}</td>
+                <td>{{my_marketing_item.marketing_type}}</td>
+                <td>{{my_marketing_item.description}}</td>
+                <td>{{my_marketing_item.start_date}}</td>
+                <td>{{my_marketing_item.end_date}}</td>
+                <td>{{my_marketing_item.marketing_status}}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+
+    </table>  
+
+
     
 {% endblock content %}

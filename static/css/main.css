@@ -1,0 +1,20 @@
+/* Import des polices d'écritures*/
+
+@import url("https://fonts.googleapis.com/css2?family=Updock&display=swap" rel="stylesheet");
+
+/* css rules */
+/*font-family: 'Updock', cursive;*/
+
+/* Définir que html représente 100% de la hauteur du navigateur */
+
+html {
+    height: 100%;
+}
+
+header {
+    height: 25%;
+    background-color: #0C1B33;
+    display: flex;
+    justify-content: space-between;
+
+}

@@ -25,6 +25,7 @@
         <th>Nombre total de commandes</th>
         <th>Total commandé en €</th>
         <th>Segment</th>
+        <th>Satisfaction</th>
         <th>Nombre de réclamations</th>
         <th>Campagne Marketing - en cours</th>
       
@@ -45,6 +46,7 @@
             <td>{{my_customer_item.nb_orders}}</td>
             <td>{{my_customer_item.total_orders}}</td>
             <td>{{my_customer_item.segment}}</td>
+            <td>{{my_customer_item.customer_satisfaction}}</td>
             <td>{{my_customer_item.nb_claims}}</td>
             <td>{{my_customer_item.current_marketing_type}}</td>
             <td><a class="btn-success btn-sm" href="{% url 'update_customer' my_customer_item.id %}" role="button">update</a></td>
