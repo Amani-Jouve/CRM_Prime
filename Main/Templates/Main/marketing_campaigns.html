@@ -1,45 +1,65 @@
 {% extends "main/base.html" %} 
 
+{% load static %}
+
 {% block content %} 
+
+<div>
     <header>
-        <h1> Welcome to our marketing_campaigns </h1>
+        <h1><strong> Management Commercial et Marketing </strong></h1>
     </header>
 
-<a class="btn-primary btn-sm" href="{% url 'marketing_campaigns_create' %}" role="button">créer une campagne marketing</a>
-
-<table class="table table-sm table-striped" class="table-responsive" >
-    <thead>
-        <th>ID Campagne Marketing</th>
-        <th>Segment client concerné</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Date de début</th>
-        <th>Date de fin</th>
-        <th>Statut</th>
-
-      
-    </thead>
-    <tbody>
-        {% for my_marketing_item in my_marketing %}
-        <tr>    
-            <td>{{my_marketing_item.id}}</td>
-            <td>{{my_marketing_item.customer_segment}}</td>
-            <td>{{my_marketing_item.marketing_type}}</td>
-            <td>{{my_marketing_item.description}}</td>
-            <td>{{my_marketing_item.start_date}}</td>
-            <td>{{my_marketing_item.end_date}}</td>
-            <td>{{my_marketing_item.marketing_status}}</td>
-            <td><a class="btn-success btn-sm" href="{% url 'update_marketing' my_marketing_item.id %}" role="button">update</a></td>
-            <td><a class="btn-danger btn-sm" href="{% url 'delete_marketing' my_marketing_item.id %}" role="button">delete</a></td>
-            
-        </tr>
-            
-        {% endfor %}
+    <br>
+    <br>
+    <a class="btn btn-lg btn-dark" href="{% url 'marketing_campaigns_create' %}" role="button">Créer une campagne</a>
+    <br>
+    <br>
+    <div class="flex">
         
-    </tbody>
+        {% include "Main/nav_bar.html" %}
+        
+        <div class="main_block_listing">
+            <div class="flex">
+                <img id="img_smiley" src="{% static 'img/icone_smiley.jpg' %}" alt="img_smiley">
+                <h2 class="titre_satis_green_listing"><strong>Campagnes Marketing</strong></h2>
+            </div>
+            <table class="table table-sm table-striped" class="table-responsive" >
+                <thead>
+                    <th>ID</th>
+                    <th>Segment client concerné</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Statut</th>
 
-   
-</table>  
 
+                </thead>
+                <tbody>
+                    {% for my_marketing_item in my_marketing %}
+                    <tr>    
+                        <td>{{my_marketing_item.id}}</td>
+                        <td>{{my_marketing_item.customer_segment}}</td>
+                        <td>{{my_marketing_item.marketing_type}}</td>
+                        <td>{{my_marketing_item.description}}</td>
+                        <td>{{my_marketing_item.start_date}}</td>
+                        <td>{{my_marketing_item.end_date}}</td>
+                        <td>{{my_marketing_item.marketing_status}}</td>
+                        <td><a class="btn btn-sm btn_update_color" href="{% url 'update_marketing' my_marketing_item.id %}" role="button">update</a></td>
+                        <td><a class="btn btn-sm btn_delete_color" href="{% url 'delete_marketing' my_marketing_item.id %}" role="button">delete</a></td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+
+            </table>  
+        </div>
+    </div>
+</div>
+
+    
     
 {% endblock content %}

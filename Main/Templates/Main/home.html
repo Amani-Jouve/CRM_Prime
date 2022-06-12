@@ -3,19 +3,29 @@
 {% load static %}
 
 
-
 {% block content %} 
+
     <header>
         <h1><strong> Home - Dashboard </strong></h1>
     </header>
+    <div class="raccourci">
+        <img id="img_cré_clt" src="{% static 'img/icone_client2.jpg' %}" alt="img_cré_clt">
+        <a class="btn btn-sm btn_create_color" href="{% url 'customers_create' %}" role="button"><h3> <strong> + Client </strong></h3></a>
+        <img id="img_cré_pdt" src="{% static 'img/icone_pdt.jpg' %}" alt="img_cré_pdt">
+        <a class="btn btn-sm btn_create_color_dark " href="{% url 'products_create' %}" role="button"><h3> <strong> + Produit</strong></h3></a>
+        <img id="img_cré_cmd" src="{% static 'img/icone_commande.jpg' %}" alt="img_cré_cmd">
+        <a class="btn btn-sm btn_create_color " href="{% url 'orders_create' %}" role="button"><h3> <strong> + Commande </strong></h3></a>
+        <img id="img_cré_mkt" src="{% static 'img/icone_marketing.jpg' %}" alt="img_cré_mkt">
+        <a class="btn btn-sm btn_create_color_dark " href="{% url 'marketing_campaigns_create' %}" role="button"><h3> <strong> + Marketing </strong></h3></a>
+        <img id="img_cré_claim" src="{% static 'img/icone_claim.jpg' %}" alt="img_cré_claim">
+        <a class="btn btn-sm btn_create_color " href="{% url 'claims_create' %}" role="button"><h3> <strong> + Réclamation </strong></h3></a>
+    </div>
 
     <div class="flex">
         
         {% include "Main/nav_bar.html" %}
-        
-       
     
-        <div class="main_block">
+        <div class="main_block_home">
             <h2 class="titre_green_strong"> <strong> Highlights </strong></h2>
             <div class=widht_sm>
               
@@ -94,6 +104,14 @@
 
                 </table>
      
+            </div>
+            
+            <div>
+                <div id="container"></div>
+
+                <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+                <script>Highcharts.chart('container', {{ sales_chart|safe}});</script>
             </div>
             
             <div class="flex">

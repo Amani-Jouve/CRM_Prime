@@ -2,14 +2,15 @@
 
 {% block content %} 
     <header>
-        <h1> CREATE YOUR CLAIM </h1>
+        <h1> Créer une nouvelle réclamation </h1>
     </header>
 
     <form method='POST'>
         {% csrf_token %} 
-        {{form}}
-        <input type="submit" name="envoyer">
-        
+        <div class="form">
+            {{form.as_p}}
+            <input type="submit" name="Créer">
+        </div>
 
     </form>
 

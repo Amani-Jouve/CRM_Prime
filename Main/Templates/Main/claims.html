@@ -1,56 +1,76 @@
 {% extends "main/base.html" %} 
 
+{% load static %}
+
 {% block content %} 
+
+<div>
     <header>
-        <h1> Welcome to our claims </h1>
+        <h1> <strong>Traitement des réclamations</strong> </h1>
     </header>
+    
+    <br>
+    <br>
+    <a class="btn btn-lg btn-dark" href="{% url 'claims_create' %}" role="button"><strong>Reporter une réclamation</strong></a>
+    <br>
+    <br>
 
-<a class="btn-primary btn-sm" href="{% url 'claims_create' %}" role="button">créer une réclamation</a>
-
-<table class="table table-sm table-striped" class="table-responsive" >
-    <thead>
-        <th>ID Claim</th>
-        <th>Client</th>
-        <th>Commande concernée</th>
-        <th>Date de création</th>
-        <th>Description</th>
-        <th>Responsable de traitement</th>
-        <th>Type</th>
-        <th>Statut</th>
-        <th>Action en cours</th>
-        <th>Délai de résolution prévu</th>
-        <th>Dernier contact client</th>
-        <th>Avancement</th>
-        <th>Date de clôture</th>
+    <div class="flex">
         
-    </thead>
-    <tbody>
-        {% for my_claim_item in my_claim %}
-        <tr>    
-            <td>{{my_claim_item.pk}}</td>
-            <td>{{my_claim_item.customer}}</td>
-            <td>{{my_claim_item.order}}</td>
-            <td>{{my_claim_item.date_created}}</td>
-            <td>{{my_claim_item.description}}</td>
-            <td>{{my_claim_item.Operator}}</td>
-            <td>{{my_claim_item.Type}}</td>
-            <td>{{my_claim_item.status}}</td>
-            <td>{{my_claim_item.action}}</td>
-            <td>{{my_claim_item.resolution_date_expected}}</td>
-            <td>{{my_claim_item.last_contact_customer_date}}</td>
-            <td>{{my_claim_item.resolution_progress_status}}</td>
-            <td>{{my_claim_item.resolution_date_final}}</td>
-            <td><a class="btn-success btn-sm" href="{% url 'update_claim' my_claim_item.id %}" role="button">update</a></td>
-            <td><a class="btn-danger btn-sm" href="{% url 'delete_claim' my_claim_item.id %}" role="button">delete</a></td>
-          
-        </tr>
-            
-        {% endfor %}
+        {% include "Main/nav_bar.html" %}
         
-    </tbody>
+        <div class="main_block_listing">
+            <div class="flex">
+                <img id="img_alerte" src="{% static 'img/icone_alerte.jpg' %}" alt="icone_alerte">
+                <h2 class="titre_red_listing"><strong>Listing des réclamations</strong></h2>
+            </div>
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <th>ID</th>
+                    <th>Client</th>
+                    <th>Commande</th>
+                    <th>Date de création</th>
+                    <th>Description</th>
+                    <th>Resp. traitement</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Action en cours</th>
+                    <th>Date résolution prévu</th>
+                    <th>Dernier contact client</th>
+                    <th>Avancement</th>
+                    <th>Date de clôture</th>
 
-   
-</table>  
+                </thead>
+                <tbody>
+                    {% for my_claim_item in my_claim %}
+                    <tr>    
+                        <td>{{my_claim_item.pk}}</td>
+                        <td>{{my_claim_item.customer}}</td>
+                        <td>{{my_claim_item.order}}</td>
+                        <td>{{my_claim_item.date_created}}</td>
+                        <td>{{my_claim_item.description}}</td>
+                        <td>{{my_claim_item.Operator}}</td>
+                        <td>{{my_claim_item.Type}}</td>
+                        <td>{{my_claim_item.status}}</td>
+                        <td>{{my_claim_item.action}}</td>
+                        <td>{{my_claim_item.resolution_date_expected}}</td>
+                        <td>{{my_claim_item.last_contact_customer_date}}</td>
+                        <td>{{my_claim_item.resolution_progress_status}}</td>
+                        <td>{{my_claim_item.resolution_date_final}}</td>
+                        <td><a class="btn btn-sm btn_update_color" href="{% url 'update_claim' my_claim_item.id %}" role="button">update</a></td>
+                        <td><a class="btn btn-sm btn_delete_color" href="{% url 'delete_claim' my_claim_item.id %}" role="button">delete</a></td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+
+            </table>  
+        </div>
+    </div>
+</div>
 
     
 {% endblock content %}

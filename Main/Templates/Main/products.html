@@ -1,54 +1,81 @@
 {% extends "main/base.html" %} 
 
+{% load static %}
+
 {% block content %} 
+
+<div>
+    
     <header>
-        <h1> Welcome to products </h1>
+        <h1><strong> Management des produits </strong></h1>
     </header>
-
-<a class="btn btn-primary btn-sm" href="{% url 'products_create' %}" role="button">créer un produit</a>
-
-<table class="table table-sm table-striped" class="table-responsive" >
-    <thead>
-        <th>ID Produit</th>
-        <th>Nom</th>
-        <th>Description</th>
-        <th>Categorie</th>
-        <th>N_Lot</th>
-        <th>Prix unitaire HT</th>
-        <th>Prix unitaire TTC</th>
-        <th>Marge commerciale</th>
-        <th>Quantité en stock initiale</th>
-        <th>Quantité en stock actuelle</th>
-        <th>Stock de sécurité</th>
-        <th>Etat des stocks</th>
-        <th>revenues_per_product</th>
-        
-    </thead>
-    <tbody>
-        {% for my_product_item in my_product %}
-        <tr>   
-            <td>{{my_product_item.pk}}</td>
-            <td>{{my_product_item.name}}</td>
-            <td>{{my_product_item.description}}</td>
-            <td>{{my_product_item.category}}</td>
-            <td>{{my_product_item.n_lot}}</td>
-            <td>{{my_product_item.price_pdt_HT}}</td>
-            <td>{{my_product_item.price_pdt_TTC}}</td>
-            <td>{{my_product_item.commercial_margin}}</td>
-            <td>{{my_product_item.stock_q}}</td>
-            <td>{{my_product_item.stock_q_actuel}}</td>
-            <td>{{my_product_item.stock_security}}</td>
-            <td>{{my_product_item.stock_status}}</td>
-            <td>{{my_product_item.revenues_per_product}}</td>
-            <td><a class="btn-success btn-sm" href="{% url 'update_product' my_product_item.id %}" role="button">update</a></td>
-            <td><a class="btn-danger btn-sm" href="{% url 'delete_product' my_product_item.id %}" role="button">delete</a></td>
-        </tr>
-            
-        {% endfor %}
-        
-    </tbody>
-
-<table>
     
-    
+    <br>
+    <br>
+    <div class="pdt_pics">
+        <a class="btn btn-lg btn_create_color " href="{% url 'products_create' %}" role="button"><strong>Créer un produit</strong></a>
+
+        <img id="pdt_blanc" src="{% static 'img/Pdt_Blanc.png' %}" alt="pdt_PC">
+          
+        
+        <img id="pdt_PC" src="{% static 'img/Pdt_Sedatech.png' %}" alt="pdt_PC">
+
+        <img id="pdt_VR" src="{% static 'img/Pdt_Casque_VR.png' %}" alt="pdt_VR">
+
+        <img id="pdt_Tel" src="{% static 'img/Pdt_téléphone.png' %}" alt="pdt_tel">
+
+        <img id="pdt_TV" src="{% static 'img/Pdt_TV.png' %}" alt="pdt_TV">
+
+    </div>
+    <br>
+    <br>
+    <div class="flex">
+        
+        {% include "Main/nav_bar.html" %}
+        
+        <div class="main_block_listing">
+            <h2 class="titre_pink_listing"><strong>Listing des produits</strong></h2>
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Description</th>
+                    <th>Categorie</th>
+                    <th>Prix unitaire HT</th>
+                    <th>Prix unitaire TTC</th>
+                    <th>Stock initial</th>
+                    <th>Stock actuel</th>
+                    <th>Stock de sécurité</th>
+                    <th>Etat du stock</th>
+                    <th>CA du produit</th>
+                    <th>Marge</th>
+
+                </thead>
+                <tbody>
+                    {% for my_product_item in my_product %}
+                    <tr>   
+                        <td>{{my_product_item.pk}}</td>
+                        <td>{{my_product_item.name}}</td>
+                        <td>{{my_product_item.description}}</td>
+                        <td>{{my_product_item.category}}</td>
+                        <td>{{my_product_item.price_pdt_HT}}</td>
+                        <td>{{my_product_item.price_pdt_TTC}}</td>
+                        <td>{{my_product_item.stock_q}}</td>
+                        <td>{{my_product_item.stock_q_actuel}}</td>
+                        <td>{{my_product_item.stock_security}}</td>
+                        <td>{{my_product_item.stock_status}}</td>
+                        <td>{{my_product_item.revenues_per_product}}</td>
+                        <td>{{my_product_item.commercial_margin}}</td>
+                        <td><a class="btn btn-sm btn_update_color" href="{% url 'update_product' my_product_item.id %}" role="button">update</a></td>
+                        <td><a class="btn btn-sm btn_delete_color" href="{% url 'delete_product' my_product_item.id %}" role="button">delete</a></td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>   
+</div>     
 {% endblock content %}

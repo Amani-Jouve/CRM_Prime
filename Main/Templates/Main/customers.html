@@ -1,65 +1,83 @@
 {% extends "main/base.html" %} 
 
+{% load static %}
+
 {% block content %} 
-<header>
-    <h1> Welcome to our customers </h1>
-</header>
-<br>
-<br>
-<a class="btn-primary btn-sm" href="{% url 'customers_create' %}" role="button">créer un client</a>
 
-
-
-
-<table class="table">
-    <thead>
-        <th>ID Client</th>
-        <th>Nom</th>
-        <th>Particulier ou société</th>
-        <th>Date de naissance</th>
-        <th>Genre</th>
-        <th>Mail</th>
-        <th>Téléphone</th>
-        <th>Adresse</th>
-        <th>Ville</th>
-        <th>RégionC</th>
-        <th>Nombre total de commandes</th>
-        <th>Total commandé en €</th>
-        <th>Segment</th>
-        <th>Satisfaction</th>
-        <th>Nombre de réclamations</th>
-        <th>Campagne Marketing - en cours</th>
-      
-    </thead>
-    <tbody>
-        {% for my_customer_item in my_customer %}
-        <tr>    
-            <td>{{my_customer_item.pk}}</td>
-            <td>{{my_customer_item.name}}</td>
-            <td>{{my_customer_item.customer_type}}</td>
-            <td>{{my_customer_item.dob}}</td>
-            <td>{{my_customer_item.gender}}</td>
-            <td>{{my_customer_item.email}}</td>
-            <td>{{my_customer_item.phone}}</td>
-            <td>{{my_customer_item.address}}</td>
-            <td>{{my_customer_item.town}}</td>
-            <td>{{my_customer_item.region}}</td>
-            <td>{{my_customer_item.nb_orders}}</td>
-            <td>{{my_customer_item.total_orders}}</td>
-            <td>{{my_customer_item.segment}}</td>
-            <td>{{my_customer_item.customer_satisfaction}}</td>
-            <td>{{my_customer_item.nb_claims}}</td>
-            <td>{{my_customer_item.current_marketing_type}}</td>
-            <td><a class="btn-success btn-sm" href="{% url 'update_customer' my_customer_item.id %}" role="button">update</a></td>
-            <td><a class="btn-danger btn-sm" href="{% url 'delete_customer' my_customer_item.id %}" role="button">delete</a></td>
-        </tr>
-            
-        {% endfor %}
+<div>
+    <header>
+        <h1><strong> Management des clients</strong> </h1>
+    </header>
+    
+    <br>
+    <br>
+    
+    <div class="clt_pics">
+        <a class="btn btn-lg btn_create_color " href="{% url 'customers_create' %}" role="button"><strong>Créer un client</strong></a>
         
-    </tbody>
+        <img id="pdt_blanc" src="{% static 'img/Pdt_Blanc.png' %}" alt="pdt_PC">
+        
+        <img id="clt_CB" src="{% static 'img/Client_CB.png' %}" alt="">
+       
+        <img id="pdt_HP" src="{% static 'img/Client_HP.png' %}" alt="">
 
-   
-</table>  
+        <img id="pdt_HG" src="{% static 'img/Client_HG.png' %}" alt="">
 
+        <img id="pdt_R2D2" src="{% static 'img/Client_R2D2.png' %}" alt="">
+
+        <img id="pdt_VM" src="{% static 'img/Client_VM.png' %}" alt="">
+        
+    </div>
+    <br>
+    <br>
+    
+    <div class="flex">
+        
+        {% include "Main/nav_bar.html" %}
+        
+        <div class="main_block_listing">
+    
+            <h2 class="titre_pink_listing"><strong>Listing des clients</strong></h2>
+            <div>
+                <table class="table table-responsive table-striped table_largeur">
+                    <thead>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Particulier ou société</th>
+                        <th>RégionC</th>
+                        <th>#commandes</th>
+                        <th>Commandé en €</th>
+                        <th>Segment</th>
+                        <th>Satisfaction</th>
+                        <th>#réclamations</th>
+                        <th>Campagne Marketing</th>
+
+                    </thead>
+                    <tbody>
+                        {% for my_customer_item in my_customer %}
+                        <tr>    
+                            <td>{{my_customer_item.pk}}</td>
+                            <td>{{my_customer_item.name}}</td>
+                            <td>{{my_customer_item.customer_type}}</td>
+                            <td>{{my_customer_item.region}}</td>
+                            <td>{{my_customer_item.nb_orders}}</td>
+                            <td>{{my_customer_item.total_orders}}</td>
+                            <td>{{my_customer_item.segment}}</td>
+                            <td>{{my_customer_item.customer_satisfaction}}</td>
+                            <td>{{my_customer_item.nb_claims}}</td>
+                            <td>{{my_customer_item.current_marketing_type}}</td>
+                            <td><a class="btn btn-sm btn_update_color" href="{% url 'update_customer' my_customer_item.id %}" role="button">update</a></td>
+                            <td><a class="btn btn-sm btn_delete_color" href="{% url 'delete_customer' my_customer_item.id %}" role="button">delete</a></td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+
+              </table>
+            </div>
+        </div>
+    </div> 
     
 {% endblock content %}

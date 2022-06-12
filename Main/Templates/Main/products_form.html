@@ -2,18 +2,17 @@
 
 {% block content %} 
     <header>
-        <h1> CREATE YOUR PRODUCT </h1>
+        <h1> Créer un nouveau produit </h1>
     </header>
 
-   <form method='POST'>
+    <form method='POST'>
         {% csrf_token %} 
-        {{form}}
-        <input type="submit" name="envoyer">
-        
+        <div class="form">
+            {{form.as_p}}
+            <input type="submit" name="Créer">
+        </div>
 
     </form>
 
-    <br>
-    <br>
     
 {% endblock content %}

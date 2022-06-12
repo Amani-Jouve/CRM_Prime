@@ -2,14 +2,16 @@
 
 {% block content %} 
     <header>
-        <h1> Welcome to update marketing </h1>
+        <h1> Présentation Campagne Marketing </h1>
     </header>
-    <form method="POST">
-        {% csrf_token %}
+    <form method='POST'>
+        {% csrf_token %} 
+        <div class="form">
+            {{form.as_p}}
+            <input type="submit" name="Mettre à jour">
+        </div>
 
-        {{form}}
-
-        <input type="submit" name="Update Marketing">
     </form>
+    
     
 {% endblock content %}

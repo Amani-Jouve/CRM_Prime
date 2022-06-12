@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Customer,Product,Order,Claim, Marketing
 from .forms import CustomerForm,ProductForm,OrderForm,ClaimForm,MarketingForm
 from datetime import datetime
+from .sales_chart import build_comparative_sales_chart
 
 ########## Pages / vues principales ##########
 
@@ -78,8 +79,11 @@ def home(request):
             satisfaction_client_globale_2021=satisfaction_client_globale_2021/my_cus.count()
         else:
             satisfaction_client_globale_2021=0
+            
+    # Appel à la fonction d'affichage du graphe - comparatif des sales
+    chart_dump = build_comparative_sales_chart()
     
-    context = {"customer_top_list" : my_top_cus,"product_top_list" : my_top_pdt,"product_critical_list" : my_critical_pdt,"product_ongoing_deliveries":my_ongoing_deliveries,"alerte_claims":my_delayed_claims,"marketing_en_cours":my_ongoing_marketing,"number_orders_2021":number_orders_2021,"number_orders_2022":number_orders_2022,"revenues_2022":revenues_2022,"revenues_2021":revenues_2021,"com_margin_2022":com_margin_2022,"com_margin_2021":com_margin_2021}
+    context = {"customer_top_list" : my_top_cus,"product_top_list" : my_top_pdt,"product_critical_list" : my_critical_pdt,"product_ongoing_deliveries":my_ongoing_deliveries,"alerte_claims":my_delayed_claims,"marketing_en_cours":my_ongoing_marketing,"number_orders_2021":number_orders_2021,"number_orders_2022":number_orders_2022,"revenues_2022":revenues_2022,"revenues_2021":revenues_2021,"com_margin_2022":com_margin_2022,"com_margin_2021":com_margin_2021, "sales_chart": chart_dump}
   
     return render(request,'Main/home.html', context)
 
