@@ -1,49 +1,73 @@
+{% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+        <nav id="sidebar">
+            
+            <div>
+                <h2><strong>Tech Prime</strong></h2>
+            </div>
+ 
+            <ul class="list-unstyled components">
+                
+                <div> 
+                    
+                    <p class="white"><strong><i>Customers First</i></strong></p>
+                
+                </div>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Clients">Clients</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Produits">Produits</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/Commandes">Commandes</a>
-      </li> 
-        <li class="nav-item">
-        <a class="nav-link" href="/Réclamations">Réclamations</a>
-      </li>
-      </li> 
-        <li class="nav-item">
-        <a class="nav-link" href="/Campagnes_Marketing">Campagne Marketing</a>
-      </li>
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li> -->
-    </ul>
-<!--     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <br>
-      <button class="btn btn-outline-success my-2 my-lg-0" type="submit">Search</button>
-    </form> -->
-  </div>
-</nav>
+                <br>
+                
+                <img id="logo_TP" src="{% static 'img/Logo_TP.png' %}" alt="logo société">
+  
+                <br>
+                <br>
+                <br>
+                
+                <li>
+                    <a href="/"><strong>Dashboard</strong></a>
+                </li>
+                
+                <br>
+                
+                <li>
+                    <a href="/Clients"><strong>Clients</strong></a>
+                </li>
+                
+                <br>
+                
+                <li>
+                    <a href="/Produits"><strong>Produits</strong></a>
+                </li>
+                
+                <br>
+                
+                <li>
+                    <a href="/Commandes"><strong>Commandes</strong></a>
+                </li>
+                
+                <br>
+                
+                <li>
+                    <a href="/Réclamations"><strong>Réclamations</strong></a>
+                </li>
+                
+                <br>
+                
+                <li>
+                    <a href="/Campagnes_Marketing"><strong>Marketing</strong></a>
+                </li>
+            </ul>
+        </nav>
+
+
+<!-- 
+
+<nav id="menu">
+            <ul>
+                <li><a href="/">Dashboard</a> </li>
+                <li><a href="/Clients" target="_blank">Clients</a></li>
+                <li><a href="/Produits" target="_blank">Produits</a></li>
+                <li><a href="/Commandes" target="_blank">Commandes</a></li>
+                <li><a href="/Réclamations" target="_blank">Réclamations</a></li>
+                <li><a href="/Campagnes_Marketing" target="_blank">Marketing</a></li>
+            </ul>
+</nav> -->

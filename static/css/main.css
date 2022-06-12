@@ -1,20 +1,150 @@
-/* Import des polices d'écritures*/
-
-@import url("https://fonts.googleapis.com/css2?family=Updock&display=swap" rel="stylesheet");
-
-/* css rules */
-/*font-family: 'Updock', cursive;*/
-
-/* Définir que html représente 100% de la hauteur du navigateur */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;400&family=Updock&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&family=Raleway:wght@100;400&family=Updock&display=swap');
 
 html {
     height: 100%;
+    width: 90%;
 }
 
 header {
-    height: 25%;
-    background-color: #0C1B33;
-    display: flex;
-    justify-content: space-between;
+    height: 10%;
+    width:120%;
+    background-color: #161925;
+    color:#C5DECD;
+    font-family: 'Merriweather', serif;
+    text-align: center;
+    padding:2.5vh;
+    top:0;
+}
 
+#logo_TP{
+    width: 100%;
+    margin-left: 10vh;
+    margin:0;
+
+}
+
+body {
+    height:100%;
+    top:10%;
+    font-family: 'Raleway', sans-serif;
+}
+
+nav{
+    width:30vh;
+    padding: 15px 10px;
+    background: #218380;
+    color:#C5DECD;
+    border: none;
+    border-radius: 0;
+    margin: 10vh;
+    box-shadow: 2vh 2vh 5vh #C5DECD;
+    font-size: large;
+
+}
+
+#sidebar{
+    margin:0;
+    background: #218380;
+    padding:3rem;
+    position:sticky; 
+}
+#sidebar ul{
+    list-style:square; 
+    padding:0;
+    display:block; 
+    flex-wrap:wrap; 
+    justify-content:space-evenly; 
+}
+
+#sidebar a{ 
+    color:#C5DECD; 
+    font-size: larger;
+    text-decoration: none;
+    padding:1rem;
+    transition: all 750ms ease-in-out;
+}
+
+#sidebar a:hover{
+    background:#AF5B5B;
+    color:#eee;
+}  
+
+.flex{
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.widht_sm{
+    width:50rem;
+    margin: 5vh;
+    display: inline-flex;   
+    display: wrap;  
+}
+
+.high_block_margin{
+    margin:3vh;
+    border: #161925 solid;
+}
+.main_block{
+    margin:5vh 10vh 10vh 5vh;
+}
+
+.titre_green_strong{
+    color:#eee;
+    width: 125vh;
+    height: 6vh;
+    padding:1vh;
+    text-align:center;
+    border-radius:10px;
+    background-color: #0b5956;
+}
+
+.titre_green_light{
+    background: linear-gradient(to bottom right, #218380, #C5DECD);
+    color:#eee;
+    width: 60vh;
+    height: 6vh;
+    padding:1vh;
+    text-align:center;
+    border-radius:10px;
+}
+
+.titre_pink{
+    background: linear-gradient(to bottom right, #ca7a78, rgb(238, 213, 213));
+    color:#eee;
+    width: 60vh;
+    height: 6vh;
+    padding:1vh;
+    text-align:center;
+    border-radius:10px;
+}
+
+.titre_other_green{
+    background: linear-gradient(to bottom right, #78B832,rgb(213, 235, 185));
+    color:#eee;
+    width: 60vh;
+    height: 6vh;
+    padding:1vh;
+    text-align:center;
+    border-radius:10px;
+}
+
+#img_alerte,#img_trophée,#img_en_cours  {
+    height:6.5vh;
+    margin-left:1vh;
+
+}
+
+footer {
+    height: 7%;
+    width:120%;
+    background-color: #161925;
+    color:#C5DECD;
+    font-family: 'Merriweather', serif;
+    text-align: left;
+    padding:1vh;
 }

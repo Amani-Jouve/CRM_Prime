@@ -1,16 +1,17 @@
 {% extends "main/base.html" %} 
 
 {% block content %} 
-    <header>
-        <h1> Welcome to our customers </h1>
-    </header>
-
+<header>
+    <h1> Welcome to our customers </h1>
+</header>
+<br>
+<br>
 <a class="btn-primary btn-sm" href="{% url 'customers_create' %}" role="button">créer un client</a>
 
 
 
 
-<table>
+<table class="table">
     <thead>
         <th>ID Client</th>
         <th>Nom</th>

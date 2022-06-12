@@ -1,299 +1,320 @@
 {% extends "main/base.html" %} 
 
+{% load static %}
+
+
+
 {% block content %} 
     <header>
-        <h1> Welcome to our website </h1>
+        <h1><strong> Home - Dashboard </strong></h1>
     </header>
 
-    
-    <h2> Highlighs </h2>
-
-    <table>
-    
-    <thead>
-        <th>Nombre de commande 2022 - à date</th>
-        <th>Nombre de commande 2021</th>
-    </thead>
-    
-    <tbody>
-        <tr>    
-            <td>{{number_orders_2022}}</td>
-            <td>{{number_orders_2021}}</td>
-              
-        </tr>
-
-    </tbody>
-   
-    </table>  
-
-    <hr>
-    <hr>
-
-    <table>
-    
-    <thead>
-        <th>Chiffre d'affaires 2022 - à date</th>
-        <th>Chiffre d'affaires 2021</th>
-    </thead>
-    
-    <tbody>
-        <tr>    
-            <td>{{revenues_2022}}</td>
-            <td>{{revenues_2021}}</td>
-              
-        </tr>
-
-    </tbody>
-   
-    </table>  
-
-    <hr>
-    <hr>
-
-    <table>
-    
-    <thead>
-        <th>Marge commerciale 2022 - à date</th>
-        <th>Marge commerciale 2021</th>
-    </thead>
-    
-    <tbody>
-        <tr>    
-            <td>{{com_margin_2022}}</td>
-            <td>{{com_margin_2021}}</td>
-              
-        </tr>
-
-    </tbody>
-   
-    </table>  
-
-    <hr>
-    <hr>
-
-<!--     <table>
-    
-    <thead>
-        <th>Satisfaction client 2022 - à date</th>
-        <th>Satisfaction client 2022 2021</th>
-    </thead>
-    
-    <tbody>
-        <tr>    
-            <td>{{satisfaction_client_globale_2021}}</td>
-            <td>{{satisfaction_client_globale_2021}}</td>
-              
-        </tr>
-
-    </tbody>
-   
-    </table>   -->
-
-    <hr>
-    <hr>
-    
-
-    <h2> Top Clients : CA sup 150 K€ </h2>
-
-    <table>
-    <thead>
-        <th>Nom</th>
-        <th>Particulier ou société</th>
+    <div class="flex">
         
-        <th>Nombre total de commandes</th>
-        <th>Total commandé en €</th>
+        {% include "Main/nav_bar.html" %}
         
-        <th>Satisfaction</th>
-    </thead>
-    <tbody>
-        {% for my_customer_item in customer_top_list %}
-        <tr>    
-            <td>{{my_customer_item.name}}</td>
-            <td>{{my_customer_item.customer_type}}</td>
-            
-            <td>{{my_customer_item.nb_orders}}</td>
-            <td>{{my_customer_item.total_orders}}</td>
-            
-            <td>{{my_customer_item.customer_satisfaction}}</td>
-
-            
-        </tr>
-            
-        {% endfor %}
-        
-    </tbody>
-   
-    </table>  
-
-    <hr>
-    <hr>
+       
     
-    <h2> Top Produits : CA sup 100 K€ </h2>
+        <div class="main_block">
+            <h2 class="titre_green_strong"> <strong> Highlights </strong></h2>
+            <div class=widht_sm>
+              
+                <br>
+                <table class="table table-striped high_block_margin" class="table-responsive" >
+                <thead>
+                    <th>#Commande 2022</th>
+                    <th>#Commande 2021</th>
+                </thead>
 
-    <table>
-        <thead>
-            <th>Nom</th>
-            <th>Categorie</th>
-            <th>Prix unitaire HT</th>
-            <th>Marge commerciale</th>
-            <th>revenues_per_product</th>
+                <tbody>
+                    <tr>    
+                        <td>{{number_orders_2022}}</td>
+                        <td>{{number_orders_2021}}</td>
 
-        </thead>
-        <tbody>
-            {% for my_product_item in product_top_list %}
-            <tr>   
-                <td>{{my_product_item.name}}</td>
-                <td>{{my_product_item.category}}</td>
-                <td>{{my_product_item.price_pdt_HT}}</td>
-                <td>{{my_product_item.commercial_margin}}</td>
-                <td>{{my_product_item.revenues_per_product}}</td>
+                    </tr>
 
-            </tr>
+                </tbody>
 
-            {% endfor %}
+                </table>  
 
-        </tbody>
+                <br>
+                <table class="table table-success table-striped high_block_margin" class="table-responsive" >
 
-    </table> 
+                <thead>
+                    <th>CA 2022</th>
+                    <th>CA 2021</th>
+                </thead>
 
-    <hr>
-    <hr>
+                <tbody>
+                    <tr>    
+                        <td>{{revenues_2022}}</td>
+                        <td>{{revenues_2021}}</td>
 
-    <h2> Livraisons en cours </h2>
-    
-    <table>
-        <thead>
-            <th>Réf Commande</th>
-            <th>Date Commande</th>
-            <th>Nom Client</th>
-            <th>Produit</th>
-            <th>Statut</th>
-            <th>Etat livraison</th>
-            <th>Date de livraison - prévue</th>
-            <th>Date de livraison - effective</th>
+                    </tr>
 
-        </thead>
-        <tbody>
-            {% for order in product_ongoing_deliveries %}
-            <tr>    
-                <td>{{order.id}}</td>
-                <td>{{order.date}}</td>
-                <td>{{order.customer.name}}</td>
-                <td>{{order.product.name}}</td>
-                <td>{{order.status}}</td>
-                <td>{{order.late_delivery}}</td>
-                <td>{{order.Delivery_date_expected}}</td>
-                <td>{{order.Delivery_date_final}}</td>
-            {% endfor %}
+                </tbody>
+
+                </table>  
+
+                <br>
+                <table class="table table-striped high_block_margin" class="table-responsive" >
+
+                <thead>
+                    <th>Marge 2022</th>
+                    <th>Marge 2021</th>
+                </thead>
+
+                <tbody>
+                    <tr>    
+                        <td>{{com_margin_2022}}</td>
+                        <td>{{com_margin_2021}}</td>
+
+                    </tr>
+
+                </tbody>
+
+                </table>  
+                <br>
                 
-        </tbody>
+                <table class="table table-success table-striped high_block_margin" class="table-responsive">
 
-    </table>
+                <thead>
+                    <th>Satisfaction client 2022</th>
+                    <th>Satisfaction client 2021</th>
+                </thead>
 
-    <hr>
-    <hr>
+                <tbody>
+                    <tr>    
+                        <td>{{satisfaction_client_globale_2021}}</td>
+                        <td>{{satisfaction_client_globale_2021}}</td>
 
-    <h2> Alerte - Produits à réapprovisionner </h2>
+                    </tr>
 
-    <table>
-        <thead>
-            <th>Nom</th>
-            <th>Categorie</th>
-            <th>Quantité en stock actuelle</th>
-            <th>Stock de sécurité</th>
-            <th>Etat des stocks</th>
+                </tbody>
 
-        </thead>
-        <tbody>
-            {% for my_product_item in product_critical_list %}
-            <tr>   
-                <td>{{my_product_item.name}}</td>
-                <td>{{my_product_item.category}}</td>
-                <td>{{my_product_item.stock_q_actuel}}</td>
-                <td>{{my_product_item.stock_security}}</td>
-                <td>{{my_product_item.stock_status}}</td>
-            </tr>
+                </table>
+     
+            </div>
+            
+            <div class="flex">
+            <img id="img_trophée" src="{% static 'img/icone_trophée.jpg' %}" alt="img_trophée">
+            <h3 class="titre_other_green"><strong> Top Clients : CA sup 150 K€ </strong></h3>
+            </div>
+            
+            <br>
+            <table class="table table-lg table-striped" class="table-responsive" >
+            <thead>
+                <th>Nom</th>
+                <th>Particulier ou société</th>
 
-            {% endfor %}
+                <th>Nombre total de commandes</th>
+                <th>Total commandé en €</th>
 
-        </tbody>
-        
-    </table>
+                <th>Satisfaction</th>
+            </thead>
+            <tbody>
+                {% for my_customer_item in customer_top_list %}
+                <tr>    
+                    <td>{{my_customer_item.name}}</td>
+                    <td>{{my_customer_item.customer_type}}</td>
 
-    <hr>
-    <hr>
+                    <td>{{my_customer_item.nb_orders}}</td>
+                    <td>{{my_customer_item.total_orders}}</td>
 
-    <h2> Alerte - Réclamations en cours </h2>
-    <table>
-        <thead>
-            <th>ID Claim</th>
-            <th>Client</th>
-            <th>Date de création</th>
-            <th>Responsable de traitement</th>
-            <th>Type</th>
-            <th>Statut</th>
-            <th>Action en cours</th>
-            <th>Délai de résolution prévu</th>
-            <th>Dernier contact client</th>
-            <th>Avancement</th>
-
-        </thead>
-        <tbody>
-            {% for my_claim_item in alerte_claims %}
-            <tr>    
-                <td>{{my_claim_item.pk}}</td>
-                <td>{{my_claim_item.customer}}</td>
-                <td>{{my_claim_item.date_created}}</td>
-                <td>{{my_claim_item.Operator}}</td>
-                <td>{{my_claim_item.Type}}</td>
-                <td>{{my_claim_item.status}}</td>
-                <td>{{my_claim_item.action}}</td>
-                <td>{{my_claim_item.resolution_date_expected}}</td>
-                <td>{{my_claim_item.last_contact_customer_date}}</td>
-                <td>{{my_claim_item.resolution_progress_status}}</td>
-
-            </tr>
-
-            {% endfor %}
-
-        </tbody>
+                    <td>{{my_customer_item.customer_satisfaction}}</td>
 
 
-    </table>  
+                </tr>
 
-    <h2> Suivi - Campagnes marketing en cours </h2>
-    <table>
-        <thead>
-            <th>ID Campagne Marketing</th>
-            <th>Segment client concerné</th>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Date de début</th>
-            <th>Date de fin</th>
-            <th>Statut</th>
+                {% endfor %}
+
+            </tbody>
+
+            </table>  
+
+            <hr>
+            <br>
+            <div class="flex">
+            <img id="img_trophée" src="{% static 'img/icone_trophée.jpg' %}" alt="img_trophée">
+            <h3 class="titre_other_green"><strong> Top Produits : CA sup 100 K€ </strong></h3>
+            </div>
+            <br>
+            <table class="table table-lg table-striped" class="table-responsive" >
+                <thead>
+                    <th>Nom</th>
+                    <th>Categorie</th>
+                    <th>Prix unitaire HT</th>
+                    <th>Marge commerciale</th>
+                    <th>revenues_per_product</th>
+
+                </thead>
+                <tbody>
+                    {% for my_product_item in product_top_list %}
+                    <tr>   
+                        <td>{{my_product_item.name}}</td>
+                        <td>{{my_product_item.category}}</td>
+                        <td>{{my_product_item.price_pdt_HT}}</td>
+                        <td>{{my_product_item.commercial_margin}}</td>
+                        <td>{{my_product_item.revenues_per_product}}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table> 
+
+            <br>
+            
+            <div class="flex">
+                <img id="img_alerte" src="{% static 'img/icone_alerte.jpg' %}" alt="icone_alerte">
+                <h3 class="titre_pink"><strong> Alerte - Produits à réapprovisionner </strong></h3>
+            </div>
+            
+            <br>
+            <table class="table table-lg table-striped" class="table-responsive" >
+                <thead>
+                    <th>Nom</th>
+                    <th>Categorie</th>
+                    <th>Quantité en stock actuelle</th>
+                    <th>Stock de sécurité</th>
+                    <th>Etat des stocks</th>
+
+                </thead>
+                <tbody>
+                    {% for my_product_item in product_critical_list %}
+                    <tr>   
+                        <td>{{my_product_item.name}}</td>
+                        <td>{{my_product_item.category}}</td>
+                        <td>{{my_product_item.stock_q_actuel}}</td>
+                        <td>{{my_product_item.stock_security}}</td>
+                        <td>{{my_product_item.stock_status}}</td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            <br>
+            <div class="flex">
+            <img id="img_alerte" src="{% static 'img/icone_alerte.jpg' %}" alt="icone_alerte">
+            <h3 class="titre_pink"><strong> Alerte - Réclamations en cours </strong></h3>
+            </div>
+            <br>
+            <table class="table table-lg table-striped" class="table-responsive" >
+                <thead>
+                    <th>ID Claim</th>
+                    <th>Client</th>
+                    <th>Date de création</th>
+                    <th>Responsable de traitement</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Action en cours</th>
+                    <th>Délai de résolution prévu</th>
+                    <th>Dernier contact client</th>
+                    <th>Avancement</th>
+
+                </thead>
+                <tbody>
+                    {% for my_claim_item in alerte_claims %}
+                    <tr>    
+                        <td>{{my_claim_item.pk}}</td>
+                        <td>{{my_claim_item.customer}}</td>
+                        <td>{{my_claim_item.date_created}}</td>
+                        <td>{{my_claim_item.Operator}}</td>
+                        <td>{{my_claim_item.Type}}</td>
+                        <td>{{my_claim_item.status}}</td>
+                        <td>{{my_claim_item.action}}</td>
+                        <td>{{my_claim_item.resolution_date_expected}}</td>
+                        <td>{{my_claim_item.last_contact_customer_date}}</td>
+                        <td>{{my_claim_item.resolution_progress_status}}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
 
 
-        </thead>
-        <tbody>
-            {% for my_marketing_item in marketing_en_cours %}
-            <tr>    
-                <td>{{my_marketing_item.id}}</td>
-                <td>{{my_marketing_item.customer_segment}}</td>
-                <td>{{my_marketing_item.marketing_type}}</td>
-                <td>{{my_marketing_item.description}}</td>
-                <td>{{my_marketing_item.start_date}}</td>
-                <td>{{my_marketing_item.end_date}}</td>
-                <td>{{my_marketing_item.marketing_status}}</td>
+            </table>  
+                <br>
+            <div class="flex">
+                <img id="img_en_cours" src="{% static 'img/icone_en_cours.jpg' %}" alt="icone_en_cours">
+                <h3 class="titre_green_light"><strong> Livraisons en cours </strong></h3>
+            </div>
+            
+            <br>
+            <table class="table table-lg table-striped" class="table-responsive" >
+                <thead>
+                    <th>Réf Commande</th>
+                    <th>Date Commande</th>
+                    <th>Nom Client</th>
+                    <th>Produit</th>
+                    <th>Statut</th>
+                    <th>Etat livraison</th>
+                    <th>Date de livraison - prévue</th>
+                    <th>Date de livraison - effective</th>
 
-            </tr>
+                </thead>
+                <tbody>
+                    {% for order in product_ongoing_deliveries %}
+                    <tr>    
+                        <td>{{order.id}}</td>
+                        <td>{{order.date}}</td>
+                        <td>{{order.customer.name}}</td>
+                        <td>{{order.product.name}}</td>
+                        <td>{{order.status}}</td>
+                        <td>{{order.late_delivery}}</td>
+                        <td>{{order.Delivery_date_expected}}</td>
+                        <td>{{order.Delivery_date_final}}</td>
+                    {% endfor %}
 
-            {% endfor %}
+                </tbody>
 
-        </tbody>
+            </table>
+
+            <br>
+            <div class="flex">
+                <img id="img_en_cours" src="{% static 'img/icone_en_cours.jpg' %}" alt="icone_en_cours">
+                <h3 class="titre_green_light"><strong> Campagnes marketing en cours </strong></h3>
+            </div>
+            <br>
+            <table class="table table-lg table-striped" class="table-responsive" >
+                <thead>
+                    <th>ID Campagne Marketing</th>
+                    <th>Segment client concerné</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Statut</th>
 
 
-    </table>  
+                </thead>
+                <tbody>
+                    {% for my_marketing_item in marketing_en_cours %}
+                    <tr>    
+                        <td>{{my_marketing_item.id}}</td>
+                        <td>{{my_marketing_item.customer_segment}}</td>
+                        <td>{{my_marketing_item.marketing_type}}</td>
+                        <td>{{my_marketing_item.description}}</td>
+                        <td>{{my_marketing_item.start_date}}</td>
+                        <td>{{my_marketing_item.end_date}}</td>
+                        <td>{{my_marketing_item.marketing_status}}</td>
 
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+
+            </table>  
+        </div>        
+    </div>
 
     
 {% endblock content %}

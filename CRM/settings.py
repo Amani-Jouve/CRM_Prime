@@ -114,12 +114,17 @@ USE_L10N = True
 
 USE_TZ = True
 
+USE_THOUSAND_SEPARATOR = True 
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_DIRS = BASE_DIR / 'static'               # AM : update avec le chemin vers static
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    '/CRM/CRM/static/',
+]              
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
