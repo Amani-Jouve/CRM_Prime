@@ -1,0 +1,29 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="fr">
+    
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- liens css -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    
+    <title>Tech_Prime</title>
+    
+<body>
+    <div class="error_msg">
+        <h1><strong>Erreur Saisie</strong></h1>
+        <br>
+        <p><strong> Les erreurs de saisie sont souvent liés à :</strong></p>
+        <li><strong> Date de livraison inférieure à la date de commande</strong></li>
+        <li><strong> Les quantités d'articles à commander ne sont pas disponibles en stock</strong></li>
+        <li><strong> La commande est notée comme livrée mais sans indiquer la date de livraison effective</strong></li>
+    </div>
+</body>

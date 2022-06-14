@@ -13,7 +13,7 @@ class Customer(models.Model):
     
     name=models.CharField(max_length=255,blank=True, null=True)
     customer_type=models.CharField(max_length=255,blank=True, null=True)
-    dob=models.DateTimeField(null=True)
+    dob=models.DateTimeField(blank=True,null=True)
     gender=models.CharField(max_length=255, null=True,choices=GENDER_CHOICES)
     email=models.CharField(max_length=255,blank=True, null=True) 
     phone=models.CharField(max_length=12,blank=True, null=True)
@@ -52,11 +52,12 @@ class Customer(models.Model):
     @property
     def customer_satisfaction(self):
         my_orders=Order.objects.filter(status="livré",customer__id=self.id)
-        total=0
+        total,count=0,0
         if my_orders.count():
             for item in my_orders:
                 total=total+item.satisfaction_score
-            return round(total/my_orders.count(),2)
+                count=count+1
+            return round(total/count,2)
         else:
             return "NA"
     
@@ -137,7 +138,7 @@ class Order(models.Model):
     date_created=models.DateTimeField(auto_now_add=True, null=True)
     
     status=models.CharField(max_length=255, null=True,default='livré',choices=STATUS_CHOICES)
-    Delivery_date_expected=models.DateTimeField(null=True)
+    Delivery_date_expected=models.DateTimeField(blank=True,null=True)
     Delivery_date_final=models.DateTimeField(blank=True, null=True)
     
     satisfaction_score=models.FloatField(blank=True, null=True)
@@ -206,7 +207,7 @@ class Claim(models.Model):
     
     customer=models.ForeignKey(Customer,null=True, on_delete=models.SET_NULL)
     order=models.ForeignKey(Order,null=True, on_delete=models.SET_NULL)
-    date=models.DateTimeField(null=True)
+    date=models.DateTimeField(blank=True,null=True)
     date_created=models.DateTimeField(auto_now_add=True, null=True)
     description=models.TextField(max_length=255, null=True)
     Operator=models.CharField(max_length=255, null=True,choices=OPERATOR_CHOICES) # A choisir dans users
@@ -214,7 +215,7 @@ class Claim(models.Model):
     action=models.TextField(max_length=255, null=True)
     status=models.CharField(max_length=255, null=True,default='ouverte',choices=STATUS_CHOICES)
     
-    resolution_date_expected=models.DateTimeField(null=True)
+    resolution_date_expected=models.DateTimeField(blank=True,null=True)
     last_contact_customer_date=models.DateTimeField(blank=True, null=True)
     resolution_date_final=models.DateTimeField(blank=True, null=True)
     
@@ -242,7 +243,7 @@ class Marketing (models.Model):
     
     customer_segment=models.CharField(max_length=255, null=True,choices=CUSTOMER_SEGMENT_CHOICES)
     description=models.TextField(max_length=255, null=True)
-    start_date=models.DateTimeField(null=True)
+    start_date=models.DateTimeField(blank=True,null=True)
     end_date=models.DateTimeField(blank=True,null=True)
     
     def __str__(self):
@@ -252,11 +253,11 @@ class Marketing (models.Model):
     @property
     def marketing_type(self):
         if self.customer_segment=="Stars":
-            mark_type="Promotions_ciblées"
+            mark_type="Invitation_webinaire"
         elif self.customer_segment=="Nouvelle inscription":
             mark_type="Envoi Newsletters"
         else:
-            mark_type="Invitation_webinaire"
+            mark_type="Promotions_ciblées"
         return mark_type
             
     

@@ -3,13 +3,14 @@ from django.http import HttpRequest
 from django.db import models
 from .models import Customer, Product, Order, Claim, Marketing
 from datetime import datetime
+from .helper_test_methods import helper_create_customer, helper_create_product
 
 class ModelsTest(TestCase):
     def setUp(self):
-        self.customer = self.helper_create_customer()
+        self.customer = helper_create_customer()
         self.customer.save()
 
-        self.product = self.helper_create_product()
+        self.product = helper_create_product()
         self.product.save()
 
         self.order = Order()
@@ -55,33 +56,3 @@ class ModelsTest(TestCase):
         self.order.customer = Customer.objects.get(id=self.customer.id)
         self.order.product = Product.objects.get(id=self.customer.id)
         self.order.save()
-
-    def helper_create_customer(self):
-        """ Creates a sample customer object """
-        new_customer = Customer()
-        new_customer.name = "Yan Solo"
-        new_customer.customer_type="Particulier"
-        new_customer.dob = "1977-07-01"
-        new_customer.gender = "Masculin"
-        new_customer.email = "yansolo@gmail.com"
-        new_customer.phone = "0678295432"
-        new_customer.address = "12 avenue Henri-Martin"
-        new_customer.town = "Paris"
-        new_customer.region = "IDF"
-        new_customer.date_created = datetime.now()
-
-        return new_customer
-
-    def helper_create_product(self):
-        """ Creates a sample product object """
-        new_product = Product()
-        new_product.name = "PC Dell 1"
-        new_product.description = "Un premier PC Dell"
-        new_product.category = "Informatique"
-        new_product.n_lot = "123456"
-        new_product.price_pdt_HT = 1299.99
-        new_product.commercial_margin = 200.0
-        new_product.stock_q = 12
-        new_product.stock_security = 5
-
-        return new_product

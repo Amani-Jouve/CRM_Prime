@@ -149,10 +149,33 @@ def create_products(request):
 def create_orders(request):
     order_form=OrderForm()
     context={'form':order_form}
+#     print(dir(order_form))
     if request.method == "POST":
         order_form=OrderForm(request.POST)
-        if order_form.is_valid():
-            order_form.save()
+        if order_form.is_valid(): 
+            order_date=order_form.cleaned_data.get("date")
+            expected_delivery_date=order_form.cleaned_data.get("Delivery_date_expected")
+            final_delivery_date=order_form.cleaned_data.get("Delivery_date_final")
+            delivery_status=order_form.cleaned_data.get("status")
+            product_name_spe=order_form.cleaned_data.get("product")
+            product_quantity=order_form.cleaned_data.get("quantity")
+            product_spe=Product.objects.get(name=product_name_spe)
+            if product_spe.stock_q_actuel>product_quantity:
+                if expected_delivery_date>order_date:
+                    if delivery_status=="livré":
+                        if final_delivery_date!=None:
+                            if final_delivery_date>order_date:
+                                order_form.save()
+                            else:
+                                return render(request,'Main/error.html')   
+                        else:
+                            return render(request,'Main/error.html') 
+                    else:
+                        order_form.save()
+                else:
+                    return render(request,'Main/error.html')
+            else:
+                return render(request,'Main/error.html')             
             
         return redirect('/Commandes/')
     else:
@@ -214,9 +237,31 @@ def update_product(request,pk):
 def update_order(request,pk):
     my_order=Order.objects.get(id=pk)
     if request.method == 'POST':
-        my_form=OrderForm(request.POST,instance=my_order)
-        if my_form.is_valid():
-            my_form.save()
+        order_form=OrderForm(request.POST,instance=my_order)
+        if order_form.is_valid(): 
+            order_date=order_form.cleaned_data.get("date")
+            expected_delivery_date=order_form.cleaned_data.get("Delivery_date_expected")
+            final_delivery_date=order_form.cleaned_data.get("Delivery_date_final")
+            delivery_status=order_form.cleaned_data.get("status")
+            product_name_spe=order_form.cleaned_data.get("product")
+            product_quantity=order_form.cleaned_data.get("quantity")
+            product_spe=Product.objects.get(name=product_name_spe)
+            if product_spe.stock_q_actuel>product_quantity:
+                if expected_delivery_date>order_date:
+                    if delivery_status=="livré":
+                        if final_delivery_date!=None:
+                            if final_delivery_date>order_date:
+                                order_form.save()
+                            else:
+                                return render(request,'Main/error.html')   
+                        else:
+                            return render(request,'Main/error.html') 
+                    else:
+                        order_form.save()
+                else:
+                    return render(request,'Main/error.html')
+            else:
+                return render(request,'Main/error.html')
             return redirect('/Commandes/')
     
     my_form= OrderForm(instance=my_order)

@@ -8,8 +8,8 @@ html {
 
 header {
     height: 10%;
-    width:130%;
-    background-color: #161925;
+    width:150%;
+    background-color:#161925;
     color:#C5DECD;
     font-family: 'Merriweather', serif;
     text-align: center;
@@ -49,6 +49,7 @@ nav{
     padding:3rem;
     position:sticky; 
 }
+
 #sidebar ul{
     list-style:square; 
     padding:0;
@@ -86,11 +87,16 @@ nav{
 }
 
 .high_block_margin{
-    margin:6vh;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+    margin-left:10vh;
+    margin-right:9vh;
     border: #161925;
     height: 10vh;
     text-align: center;
+    font-size:large;
 }
+
 .main_block_home{
     margin:5vh 10vh 10vh 5vh;
 }
@@ -103,6 +109,7 @@ nav{
     background-color: #161925;
     color:#0b5956;
 }
+
 .titre_green_strong{
     color:#eee;
     width: 125vh;
@@ -263,9 +270,23 @@ nav{
     justify-content:space-between;
 }
 
+.table-xlg{
+    font-size: large;
+
+}
+
+.error_msg{
+    margin:25vh;
+    background-color:#812424;
+    color: #eee;
+    padding:4vh;
+    width:70%;
+    font-size: x-large ;
+}
+
 footer {
     height: 7%;
-    width:120%;
+    width:150%;
     background-color: #161925;
     color:#C5DECD;
     font-family: 'Merriweather', serif;
