@@ -24,12 +24,12 @@
                 <img id="img_alerte" src="{% static 'img/icone_alerte.jpg' %}" alt="icone_alerte">
                 <h2 class="titre_red_listing"><strong>Listing des réclamations</strong></h2>
             </div>
-            <table class="table table-responsive table-striped">
+            <table class="table table-responsive table-striped table-hover">
                 <thead>
                     <th>ID</th>
                     <th>Client</th>
                     <th>Commande</th>
-                    <th>Date de création</th>
+                    <th>Date</th>
                     <th>Description</th>
                     <th>Resp. traitement</th>
                     <th>Type</th>
@@ -37,7 +37,7 @@
                     <th>Action en cours</th>
                     <th>Date résolution prévu</th>
                     <th>Dernier contact client</th>
-                    <th>Avancement</th>
+                    <th class="table-danger">Avancement</th>
                     <th>Date de clôture</th>
 
                 </thead>
@@ -47,7 +47,7 @@
                         <td>{{my_claim_item.pk}}</td>
                         <td>{{my_claim_item.customer}}</td>
                         <td>{{my_claim_item.order}}</td>
-                        <td>{{my_claim_item.date_created}}</td>
+                        <td>{{my_claim_item.date}}</td>
                         <td>{{my_claim_item.description}}</td>
                         <td>{{my_claim_item.Operator}}</td>
                         <td>{{my_claim_item.Type}}</td>

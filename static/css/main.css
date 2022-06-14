@@ -80,14 +80,16 @@ nav{
 
 .widht_sm{
     width:65rem;
-    margin: 5vh;
+    margin: 7vh;
     display: inline-flex;   
     display: wrap;  
 }
 
 .high_block_margin{
-    margin:3vh;
-    border: #161925 solid;
+    margin:6vh;
+    border: #161925;
+    height: 10vh;
+    text-align: center;
 }
 .main_block_home{
     margin:5vh 10vh 10vh 5vh;
@@ -97,6 +99,10 @@ nav{
     margin:1vh 10vh 10vh 5vh;
 }
 
+.th_dark{
+    background-color: #161925;
+    color:#0b5956;
+}
 .titre_green_strong{
     color:#eee;
     width: 125vh;
@@ -213,8 +219,8 @@ nav{
 
 }
 
-#iimg_cré_clt,#img_cré_pdt,#img_cré_cmd,#img_cré_mkt,#img_cré_claim{
-    margin-left:1.2vh;
+#img_cré_clt,#img_cré_pdt,#img_cré_cmd,#img_cré_mkt,#img_cré_claim{
+    margin-left:0vh;
 }
 
 
@@ -247,9 +253,14 @@ nav{
 }
 
 #raccourci{
-    margin:20vh;
+    margin:30vh;
     width:40vh;
     
+}
+
+#header_home{
+    display:inline-block;
+    justify-content:space-between;
 }
 
 footer {

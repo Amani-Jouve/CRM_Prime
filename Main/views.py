@@ -11,7 +11,7 @@ def home(request):
     my_top_cus=[]
     my_cus = Customer.objects.all()
     
-    # Clients CA sup à 200 K€ #
+    # Clients CA sup à x K€ #
     for item in my_cus:
         if item.total_orders>150000:
             my_top_cus.append(item)
@@ -20,7 +20,8 @@ def home(request):
     my_critical_pdt=[]
     my_pdt= Product.objects.all()
     
-    # Produits CA sup à 100 K€ #
+    # Produits CA sup à y K€ #
+    # Stock à réapprovisionner # 
     for machin in my_pdt:
         if machin.revenues_per_product>100000:
             my_top_pdt.append(machin)
@@ -57,33 +58,37 @@ def home(request):
     # Satisfaction client globale 2022 & 2021 #
     number_orders_2022,number_orders_2021=0,0
     revenues_2022,revenues_2021=0,0
-    com_margin_2022,com_margin_2021=0,0
+    com_margin_2022,com_margin_2021=0,0   
     satisfaction_client_globale_2022,satisfaction_client_globale_2021=0,0
+    counter_2,counter_1=0,0
     
     for order in my_orders:
         if order.date.strftime("%Y")=="2022":
             number_orders_2022=number_orders_2022+1
             revenues_2022=revenues_2022+order.get_total_item_price_TTC
             com_margin_2022=com_margin_2022+order.commercial_margin_total
-#             satisfaction_client_globale_2022=satisfaction_client_globale_2022+order.satisfaction_score
-        if my_cus.count():
-            satisfaction_client_globale_2022=satisfaction_client_globale_2022/my_cus.count()
-        else:
-            satisfaction_client_globale_2022=0
+            if order.satisfaction_score!=None:
+                satisfaction_client_globale_2022=satisfaction_client_globale_2022+order.satisfaction_score
+                counter_2=counter_2+1
+            
         if order.date.strftime("%Y")=="2021":
             number_orders_2021=number_orders_2021+1
             revenues_2021=revenues_2021+order.get_total_item_price_TTC
             com_margin_2021=com_margin_2021+order.commercial_margin_total
-#             satisfaction_client_globale_2021=satisfaction_client_globale_2021+order.satisfaction_score
-        if my_cus.count():
-            satisfaction_client_globale_2021=satisfaction_client_globale_2021/my_cus.count()
-        else:
-            satisfaction_client_globale_2021=0
+            if order.satisfaction_score!=None:
+                satisfaction_client_globale_2021=satisfaction_client_globale_2021+order.satisfaction_score
+                counter_1=counter_1+1
+    if counter_2:
+        satisfaction_client_globale_2022=round(satisfaction_client_globale_2022/counter_2,2)
+        
+    if counter_1:
+        satisfaction_client_globale_2021=round(satisfaction_client_globale_2021/counter_1,2)
+
             
     # Appel à la fonction d'affichage du graphe - comparatif des sales
     chart_dump = build_comparative_sales_chart()
     
-    context = {"customer_top_list" : my_top_cus,"product_top_list" : my_top_pdt,"product_critical_list" : my_critical_pdt,"product_ongoing_deliveries":my_ongoing_deliveries,"alerte_claims":my_delayed_claims,"marketing_en_cours":my_ongoing_marketing,"number_orders_2021":number_orders_2021,"number_orders_2022":number_orders_2022,"revenues_2022":revenues_2022,"revenues_2021":revenues_2021,"com_margin_2022":com_margin_2022,"com_margin_2021":com_margin_2021, "sales_chart": chart_dump}
+    context = {"customer_top_list" : my_top_cus,"product_top_list" : my_top_pdt,"product_critical_list" : my_critical_pdt,"product_ongoing_deliveries":my_ongoing_deliveries,"alerte_claims":my_delayed_claims,"marketing_en_cours":my_ongoing_marketing,"number_orders_2021":number_orders_2021,"number_orders_2022":number_orders_2022,"revenues_2022":revenues_2022,"revenues_2021":revenues_2021,"com_margin_2022":com_margin_2022,"com_margin_2021":com_margin_2021, "sales_chart": chart_dump,"satisfaction_client_globale_2022":satisfaction_client_globale_2022,"satisfaction_client_globale_2021":satisfaction_client_globale_2021}
   
     return render(request,'Main/home.html', context)
 
@@ -111,6 +116,9 @@ def marketing_campaigns(request):
     my_marketing=Marketing.objects.order_by('start_date')
     context={"my_marketing": my_marketing}
     return render(request,'Main/marketing_campaigns.html',context)
+
+def faq(request):
+    return render(request,'Main/faq.html')
 
 ########## Pages / vues - Création ##########
 
@@ -281,3 +289,4 @@ def delete_marketing(request,pk):
         return redirect('/Campagnes_Marketing/')
     context = {'item':item}
     return render(request, 'Main/marketing_delete.html', context)
+

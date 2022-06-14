@@ -1,5 +1,4 @@
 from .models import Order
-
 import json
 from datetime import datetime
 
@@ -25,12 +24,11 @@ def build_comparative_sales_chart():
 
     for obj in my_objects:
         ddate = obj.Delivery_date_expected
-
-        if ddate.year == current_year:
-            dataset_CY[months_tab[ddate.month-1]] += obj.get_total_order_price_TTC
-        elif ddate.year == previous_year:
-            dataset_PY[months_tab[ddate.month-1]] += obj.get_total_order_price_TTC
-
+        if ddate.month <= NUM_MONTHS:
+            if ddate.year == current_year:
+                dataset_CY[months_tab[ddate.month-1]] += obj.get_total_order_price_TTC
+            elif ddate.year == previous_year:
+                dataset_PY[months_tab[ddate.month-1]] += obj.get_total_order_price_TTC
 
     PY_sales = list()
     CY_sales = list()

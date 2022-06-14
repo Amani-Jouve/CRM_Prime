@@ -17,11 +17,11 @@ class Customer(models.Model):
     gender=models.CharField(max_length=255, null=True,choices=GENDER_CHOICES)
     email=models.CharField(max_length=255,blank=True, null=True) 
     phone=models.CharField(max_length=12,blank=True, null=True)
-    address=models.CharField(max_length=255,blank=True, null=True)
+    address=models.TextField(blank=True, null=True)
     town=models.CharField(max_length=255,blank=True, null=True)
     region=models.CharField(max_length=255,blank=True, null=True,choices=REGION_CHOICES)
     date_created=models.DateTimeField(auto_now_add=True, null=True)
-#     marketing_campaign=models.ForeignKey(Marketing,null=True, on_delete=models.SET_NULL)
+
     
     def __str__(self):
         return self.name
@@ -41,12 +41,12 @@ class Customer(models.Model):
     
     @property
     def segment(self):
-        if self.total_orders>1000:
-            segmentation="Bon client"
+        if self.total_orders>100000:
+            segmentation="Stars"
         elif self.total_orders==0:
             segmentation="Nouvelle inscription"
         else:
-            segmentation="Client ponctuel"
+            segmentation="Potentiel moyen"
         return segmentation
     
     @property
@@ -80,7 +80,7 @@ class Product(models.Model):
     CATEGORY_CHOICES=(('Informatique','Informatique'),('Téléphonie','Téléphonie'),('Objets connectés','Objets connectés'),('TV & Home cinéma','TV & Home cinéma'))
     
     name=models.CharField(max_length=200, null=True)
-    description=models.CharField(max_length=200, null=True)
+    description=models.TextField(null=True)
     category=models.CharField(max_length=200, null=True,choices=CATEGORY_CHOICES)
     n_lot=models.CharField(max_length=200, null=True)
     price_pdt_HT=models.FloatField(null=True)
@@ -140,7 +140,7 @@ class Order(models.Model):
     Delivery_date_expected=models.DateTimeField(null=True)
     Delivery_date_final=models.DateTimeField(blank=True, null=True)
     
-    satisfaction_score=models.FloatField(null=True)
+    satisfaction_score=models.FloatField(blank=True, null=True)
     
     def __str__(self):
         return "Commande "+ str(self.id)
@@ -202,15 +202,16 @@ class Claim(models.Model):
     
     TYPE_CHOICES=(('erreur prix','erreur prix'),('article erronné','article erronné'),('article defectueux','article defectueux'),('retard livraison','retard livraison'))
     STATUS_CHOICES=(('ouverte','ouverte'),('résolue','résolue'))
+    OPERATOR_CHOICES=(('Amani','Amani'),('Harley','Harley'),('Robin','Robin'))
     
     customer=models.ForeignKey(Customer,null=True, on_delete=models.SET_NULL)
     order=models.ForeignKey(Order,null=True, on_delete=models.SET_NULL)
-    
+    date=models.DateTimeField(null=True)
     date_created=models.DateTimeField(auto_now_add=True, null=True)
-    description=models.CharField(max_length=255, null=True)
-    Operator=models.CharField(max_length=255, null=True) # A choisir dans users
+    description=models.TextField(max_length=255, null=True)
+    Operator=models.CharField(max_length=255, null=True,choices=OPERATOR_CHOICES) # A choisir dans users
     Type=models.CharField(max_length=255, null=True,choices=TYPE_CHOICES)
-    action=models.CharField(max_length=255, null=True)
+    action=models.TextField(max_length=255, null=True)
     status=models.CharField(max_length=255, null=True,default='ouverte',choices=STATUS_CHOICES)
     
     resolution_date_expected=models.DateTimeField(null=True)
@@ -222,19 +223,25 @@ class Claim(models.Model):
     
     def resolution_progress_status(self):
         today=timezone.now()
-        if self.resolution_date_expected < today:
-            resolution_res="En retard"
+        if self.resolution_date_final:
+            if self.resolution_date_expected < self.resolution_date_final:
+                resolution_res="En retard"
+            else:
+                resolution_res="Dans les temps"
         else:
-            resolution_res="Dans les temps"
+            if self.resolution_date_expected < today:
+                resolution_res="En retard"
+            else:
+                resolution_res="Dans les temps"
         return resolution_res
-    
+
 class Marketing (models.Model):
     """docstring for Marketing"""
     
-    CUSTOMER_SEGMENT_CHOICES=(("Bon client","Bon client"),("Nouvelle inscription","Nouvelle inscription"),("Client ponctuel","Client ponctuel"))
+    CUSTOMER_SEGMENT_CHOICES=(("Stars","Stars"),("Nouvelle inscription","Nouvelle inscription"),("Potentiel moyen","Potentiel moyen"))
     
     customer_segment=models.CharField(max_length=255, null=True,choices=CUSTOMER_SEGMENT_CHOICES)
-    description=models.CharField(max_length=255, null=True)
+    description=models.TextField(max_length=255, null=True)
     start_date=models.DateTimeField(null=True)
     end_date=models.DateTimeField(blank=True,null=True)
     
@@ -244,8 +251,8 @@ class Marketing (models.Model):
    
     @property
     def marketing_type(self):
-        if self.customer_segment=="Bon client":
-            mark_type="Listing_promotions_ciblées"
+        if self.customer_segment=="Stars":
+            mark_type="Promotions_ciblées"
         elif self.customer_segment=="Nouvelle inscription":
             mark_type="Envoi Newsletters"
         else:

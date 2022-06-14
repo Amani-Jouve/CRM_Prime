@@ -5,9 +5,11 @@
 
 {% block content %} 
 
-    <header>
+    <header class="header_home">
         <h1><strong> Home - Dashboard </strong></h1>
     </header>
+    <br>
+    <br>
     <div class="raccourci">
         <img id="img_cré_clt" src="{% static 'img/icone_client2.jpg' %}" alt="img_cré_clt">
         <a class="btn btn-sm btn_create_color" href="{% url 'customers_create' %}" role="button"><h3> <strong> + Client </strong></h3></a>
@@ -20,7 +22,9 @@
         <img id="img_cré_claim" src="{% static 'img/icone_claim.jpg' %}" alt="img_cré_claim">
         <a class="btn btn-sm btn_create_color " href="{% url 'claims_create' %}" role="button"><h3> <strong> + Réclamation </strong></h3></a>
     </div>
-
+    <br>
+    <a class="btn btn-lg btn_delete_color" href="http://localhost:8000/admin" role="button"><strong>Login</strong></a>
+    <br>
     <div class="flex">
         
         {% include "Main/nav_bar.html" %}
@@ -28,82 +32,83 @@
         <div class="main_block_home">
             <h2 class="titre_green_strong"> <strong> Highlights </strong></h2>
             <div class=widht_sm>
-              
                 <br>
-                <table class="table table-striped high_block_margin" class="table-responsive" >
-                <thead>
-                    <th>#Commande 2022</th>
-                    <th>#Commande 2021</th>
-                </thead>
+                <div>
+                    <table class="table table-info table-striped high_block_margin" class="table-responsive" >
+                    <thead>
+                        <th>#Commande 2022</th>
+                        <th>#Commande 2021</th>
+                    </thead>
 
-                <tbody>
-                    <tr>    
-                        <td>{{number_orders_2022}}</td>
-                        <td>{{number_orders_2021}}</td>
+                    <tbody>
+                        <tr>    
+                            <td>{{number_orders_2022}}</td>
+                            <td>{{number_orders_2021}}</td>
 
-                    </tr>
+                        </tr>
 
-                </tbody>
+                    </tbody>
+                    
+                    </table>  
 
-                </table>  
+                    <br>
+                    <table class="table table-striped high_block_margin" class="table-responsive" >
 
+                    <thead>
+                        <th>CA 2022</th>
+                        <th>CA 2021</th>
+                    </thead>
+
+                    <tbody>
+                        <tr>    
+                            <td>{{revenues_2022}}</td>
+                            <td>{{revenues_2021}}</td>
+
+                        </tr>
+
+                    </tbody>
+
+                    </table>  
+                </div>
                 <br>
-                <table class="table table-success table-striped high_block_margin" class="table-responsive" >
+                <div>
+                    <table class="table table-striped high_block_margin" class="table-responsive" >
 
-                <thead>
-                    <th>CA 2022</th>
-                    <th>CA 2021</th>
-                </thead>
+                    <thead>
+                        <th>Marge 2022</th>
+                        <th>Marge 2021</th>
+                    </thead>
 
-                <tbody>
-                    <tr>    
-                        <td>{{revenues_2022}}</td>
-                        <td>{{revenues_2021}}</td>
+                    <tbody>
+                        <tr>    
+                            <td>{{com_margin_2022}}</td>
+                            <td>{{com_margin_2021}}</td>
 
-                    </tr>
+                        </tr>
 
-                </tbody>
+                    </tbody>
 
-                </table>  
+                    </table>  
+                    <br>
 
-                <br>
-                <table class="table table-striped high_block_margin" class="table-responsive" >
+                    <table class="table table-info table-striped high_block_margin" class="table-responsive">
 
-                <thead>
-                    <th>Marge 2022</th>
-                    <th>Marge 2021</th>
-                </thead>
+                    <thead>
+                        <th>Satisfaction client 2022</th>
+                        <th>Satisfaction client 2021</th>
+                    </thead>
 
-                <tbody>
-                    <tr>    
-                        <td>{{com_margin_2022}}</td>
-                        <td>{{com_margin_2021}}</td>
+                    <tbody>
+                        <tr>    
+                            <td>{{satisfaction_client_globale_2022}}</td>
+                            <td>{{satisfaction_client_globale_2021}}</td>
 
-                    </tr>
+                        </tr>
 
-                </tbody>
+                    </tbody>
 
-                </table>  
-                <br>
-                
-                <table class="table table-success table-striped high_block_margin" class="table-responsive">
-
-                <thead>
-                    <th>Satisfaction client 2022</th>
-                    <th>Satisfaction client 2021</th>
-                </thead>
-
-                <tbody>
-                    <tr>    
-                        <td>{{satisfaction_client_globale_2021}}</td>
-                        <td>{{satisfaction_client_globale_2021}}</td>
-
-                    </tr>
-
-                </tbody>
-
-                </table>
-     
+                    </table>
+                </div>
             </div>
             
             <div>
@@ -126,9 +131,9 @@
                 <th>Particulier ou société</th>
 
                 <th>Nombre total de commandes</th>
-                <th>Total commandé en €</th>
+                <th class="table-success">Total commandé </th>
 
-                <th>Satisfaction</th>
+                <th class="table-success">Satisfaction</th>
             </thead>
             <tbody>
                 {% for my_customer_item in customer_top_list %}
@@ -162,8 +167,8 @@
                     <th>Nom</th>
                     <th>Categorie</th>
                     <th>Prix unitaire HT</th>
-                    <th>Marge commerciale</th>
-                    <th>revenues_per_product</th>
+                    <th class="table-success">Marge commerciale</th>
+                    <th class="table-success">CA par produit</th>
 
                 </thead>
                 <tbody>
@@ -195,9 +200,9 @@
                 <thead>
                     <th>Nom</th>
                     <th>Categorie</th>
-                    <th>Quantité en stock actuelle</th>
                     <th>Stock de sécurité</th>
-                    <th>Etat des stocks</th>
+                    <th class="table-danger">Quantité en stock actuelle</th>
+                    <th class="table-danger">Etat des stocks</th>
 
                 </thead>
                 <tbody>
@@ -205,8 +210,8 @@
                     <tr>   
                         <td>{{my_product_item.name}}</td>
                         <td>{{my_product_item.category}}</td>
-                        <td>{{my_product_item.stock_q_actuel}}</td>
                         <td>{{my_product_item.stock_security}}</td>
+                        <td>{{my_product_item.stock_q_actuel}}</td>
                         <td>{{my_product_item.stock_status}}</td>
                     </tr>
 
@@ -230,10 +235,10 @@
                     <th>Responsable de traitement</th>
                     <th>Type</th>
                     <th>Statut</th>
-                    <th>Action en cours</th>
-                    <th>Délai de résolution prévu</th>
-                    <th>Dernier contact client</th>
-                    <th>Avancement</th>
+                    <th class="table-danger">Action en cours</th>
+                    <th class="table-danger">Délai de résolution prévu</th>
+                    <th class="table-danger">Dernier contact client</th>
+                    <th class="table-danger">Avancement</th>
 
                 </thead>
                 <tbody>
@@ -271,9 +276,9 @@
                     <th>Date Commande</th>
                     <th>Nom Client</th>
                     <th>Produit</th>
-                    <th>Statut</th>
-                    <th>Etat livraison</th>
-                    <th>Date de livraison - prévue</th>
+                    <th class="table-success">Statut</th>
+                    <th class="table-success">Etat livraison</th>
+                    <th class="table-success">Date de livraison - prévue</th>
                     <th>Date de livraison - effective</th>
 
                 </thead>
@@ -308,7 +313,7 @@
                     <th>Description</th>
                     <th>Date de début</th>
                     <th>Date de fin</th>
-                    <th>Statut</th>
+                    <th class="table-success">Statut</th>
 
 
                 </thead>

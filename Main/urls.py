@@ -17,7 +17,7 @@
 
 
 from django.urls import path
-from .views import home, customers,products,orders,create_customers,create_products,create_orders,update_customer,delete_customer,update_product,delete_product,update_order,delete_order,claims,create_claims,update_claim,delete_claim,marketing_campaigns,create_marketing,update_marketing,delete_marketing
+from .views import home, customers,products,orders,create_customers,create_products,create_orders,update_customer,delete_customer,update_product,delete_product,update_order,delete_order,claims,create_claims,update_claim,delete_claim,marketing_campaigns,create_marketing,update_marketing,delete_marketing,faq
 
 urlpatterns = [
     path('', home, name='home'),
@@ -47,6 +47,8 @@ urlpatterns = [
     
     path('Campagne_Marketing_mise_à_jour/<str:pk>',update_marketing,name='update_marketing'),
     path('Campagne_Marketing_supprimer/<str:pk>',delete_marketing,name='delete_marketing'),
+    path('FAQ/',faq,name='faq'),
+
 ]
 
 
